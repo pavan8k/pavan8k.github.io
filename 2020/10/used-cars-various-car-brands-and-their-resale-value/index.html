@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.78.1 with theme Tranquilpeak 0.4.8-BETA">
+<meta name="author" content="Pavan Kumar">
+<meta name="keywords" content="Appstore, Playstore, profitable apps">
+<meta name="description" content="I have used pandas and ebay car sales data of Germany to analyse resale values of major car brands. Read on to find out the costliest car brand, best value for money car brand etc:-">
+
+
+<meta property="og:description" content="I have used pandas and ebay car sales data of Germany to analyse resale values of major car brands. Read on to find out the costliest car brand, best value for money car brand etc:-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Used cars: Various car brands and their resale value.">
+<meta name="twitter:title" content="Used cars: Various car brands and their resale value.">
+<meta property="og:url" content="https://pavankumar.in/2020/10/used-cars-various-car-brands-and-their-resale-value./">
+<meta property="twitter:url" content="https://pavankumar.in/2020/10/used-cars-various-car-brands-and-their-resale-value./">
+<meta property="og:site_name" content="Pavan Kumar&#39;s Blog">
+<meta property="og:description" content="I have used pandas and ebay car sales data of Germany to analyse resale values of major car brands. Read on to find out the costliest car brand, best value for money car brand etc:-">
+<meta name="twitter:description" content="I have used pandas and ebay car sales data of Germany to analyse resale values of major car brands. Read on to find out the costliest car brand, best value for money car brand etc:-">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2020-10-20T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2020-10-20T00:00:00">
+  
+  
+  
+    
+      <meta property="article:section" content="DataScience">
+    
+  
+  
+
+
+<meta name="twitter:card" content="summary">
+
+  <meta name="twitter:site" content="@pavankumar_8">
+
+
+  <meta name="twitter:creator" content="@pavankumar_8">
+
+
+
+
+
+
+  <meta property="og:image" content="https://res.cloudinary.com/pavan8k/image/upload/v1605459393/site_assets/posts/pexels-pok-rie-1004409_lorzpw.jpg">
+  <meta property="twitter:image" content="https://res.cloudinary.com/pavan8k/image/upload/v1605459393/site_assets/posts/pexels-pok-rie-1004409_lorzpw.jpg">
+
+
+  <meta property="og:image" content="https://res.cloudinary.com/pavan8k/image/upload/v1605459393/site_assets/posts/pexels-pok-rie-1004409_lorzpw.jpg">
+  <meta property="twitter:image" content="https://res.cloudinary.com/pavan8k/image/upload/v1605459393/site_assets/posts/pexels-pok-rie-1004409_lorzpw.jpg">
+
+
+
+
+  <meta property="og:image" content="https://pavankumar.in/images/dp2.jpg">
+  <meta property="twitter:image" content="https://pavankumar.in/images/dp2.jpg">
+
+
+    <title>Used cars: Various car brands and their resale value.</title>
+
+    <link rel="icon" href="https://res.cloudinary.com/pavan8k/image/upload/v1605075896/site_assets/favicon-32x32_zvu8uj.png">
+    
+
+    
+
+    <link rel="canonical" href="https://pavankumar.in/2020/10/used-cars-various-car-brands-and-their-resale-value./">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://pavankumar.in/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+      
+        <link rel="stylesheet"  href="https://pavankumar.in/css/custom.css">
+      
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://pavankumar.in/">Pavan Kumar&#39;s Blog</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://pavankumar.in/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://pavankumar.in/images/dp2.jpg" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://pavankumar.in/#about">
+          <img class="sidebar-profile-picture" src="https://pavankumar.in/images/dp2.jpg" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Pavan Kumar</h4>
+        
+          <h5 class="sidebar-profile-bio">I am Data Science and Software enthusiast. I am specialized in C++ and Python.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pavankumar.in/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pavankumar.in/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pavankumar.in/categories/datascience">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">DataScience</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/kakawait" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://stackoverflow.com/users/6444623/pavan-kumar" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-stack-overflow"></i>
+      
+      <span class="sidebar-button-desc">Stack Overflow</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/pavankumar_8" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+  <div class="post-header-cover
+              text-center
+              "
+       style="background-image:url('https://res.cloudinary.com/pavan8k/image/upload/v1605459393/site_assets/posts/pexels-pok-rie-1004409_lorzpw.jpg')"
+       data-behavior="5">
+    
+      <div class="post-header main-content-wrap text-center">
+  
+    <h1 class="post-title" itemprop="headline">
+      Used cars: Various car brands and their resale value.
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-10-20T00:00:00Z">
+        
+  October 20, 2020
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://pavankumar.in/categories/datascience">DataScience</a>
+    
+  
+
+  </div>
+
+</div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="5"
+        class="hasCover
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>I have used pandas and ebay car sales data of Germany to analyse resale values of major car brands. Read on to find out the costliest car brand, best value for money car brand etc:-</p>
+<h1 id="exploring-ebay-car-sales-data--pandas">Exploring ebay car sales data : Pandas</h1>
+<p>In this  project, we&rsquo;ll work with a dataset of used cars from eBay Kleinanzeigen, a <a href="https://en.wikipedia.org/wiki/Classified_advertising">classifieds</a> section of the German eBay website.</p>
+<p>The dataset was originally scraped and uploaded to <a href="https://www.kaggle.com/orgesleka/used-cars-database/data">Kaggle</a>. There are few modifications made from the original dataset that was uploaded to Kaggle:</p>
+<ul>
+<li>50,000 data points from the full dataset were sampled, to ensure code runs quickly in the hosted environment</li>
+<li>Kaggle dataset was relatively clean. To resemble a scraped dataset, the clean dataset in kaggle was intentionally dirtied.</li>
+</ul>
+<p>The data dictionary provided with data is as follows:</p>
+<ul>
+<li><code>dateCrawled</code> - When this ad was first crawled. All field-values are taken from this date.</li>
+<li><code>name</code> - Name of the car.</li>
+<li><code>seller</code> - Whether the seller is private or a dealer.</li>
+<li><code>offerType</code> - The type of listing</li>
+<li><code>price</code> - The price on the ad to sell the car.</li>
+<li><code>abtest</code> - Whether the listing is included in an A/B test.</li>
+<li><code>vehicleType</code> - The vehicle Type.</li>
+<li><code>yearOfRegistration</code> - The year in which the car was first registered.</li>
+<li><code>gearbox</code> - The transmission type.</li>
+<li><code>powerPS</code> - The power of the car in PS.</li>
+<li><code>model</code> - The car model name.</li>
+<li><code>kilometer</code> - How many kilometers the car has driven.</li>
+<li><code>monthOfRegistration</code> - The month in which the car was first registered.</li>
+<li><code>fuelType</code> - What type of fuel the car uses.</li>
+<li><code>brand</code> - The brand of the car.</li>
+<li><code>notRepairedDamage</code> - If the car has a damage which is not yet repaired.</li>
+<li><code>dateCreated</code> - The date on which the eBay listing was created.</li>
+<li><code>nrOfPictures</code> - The number of pictures in the ad.</li>
+<li><code>postalCode</code> - The postal code for the location of the vehicle.</li>
+<li><code>lastSeenOnline</code> - When the crawler saw this ad last online.</li>
+</ul>
+<p>The aim of this project is to clean the data and analyze the included used car listings.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pandas <span style="color:#f92672">as</span> pd
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+
+autos <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;autos.csv&#39;</span>, encoding <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Latin-1&#39;</span>)
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">autos<span style="color:#f92672">.</span>info()
+</code></pre></div><pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 50000 entries, 0 to 49999
+Data columns (total 20 columns):
+dateCrawled            50000 non-null object
+name                   50000 non-null object
+seller                 50000 non-null object
+offerType              50000 non-null object
+price                  50000 non-null object
+abtest                 50000 non-null object
+vehicleType            44905 non-null object
+yearOfRegistration     50000 non-null int64
+gearbox                47320 non-null object
+powerPS                50000 non-null int64
+model                  47242 non-null object
+odometer               50000 non-null object
+monthOfRegistration    50000 non-null int64
+fuelType               45518 non-null object
+brand                  50000 non-null object
+notRepairedDamage      40171 non-null object
+dateCreated            50000 non-null object
+nrOfPictures           50000 non-null int64
+postalCode             50000 non-null int64
+lastSeen               50000 non-null object
+dtypes: int64(5), object(15)
+memory usage: 7.6+ MB
+</code></pre>
+<p><code>DF.info()</code> gives the information about the dataframe. Looking at <code>autos</code> dataframe, we can observe somethings</p>
+<ul>
+<li>Dataset has 20 columns, most of which are strings</li>
+<li>There are a maximum of 50,000 rows, since the dataset contains 50k entries</li>
+<li>Some columns doesn&rsquo;t have the information about all the 50k rows. Either the data could be <code>NaN</code> or the data could be missing. These are 5 columns of <code>vehicleType</code>, <code>gearbox</code>, <code>model</code>, <code>fuelType</code> and <code>notRepairedDamage</code></li>
+<li>The column names are camelcase and not python&rsquo;s preferred snakecase</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">autos<span style="color:#f92672">.</span>head()
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<p><code>DF.head()</code> lists the top 5 rows of a DataFrame. For our dataframe autos, it could be observed that</p>
+<ul>
+<li><code>price</code> column has to be cleaned to remove &lsquo;$&rsquo; and &lsquo;,&rsquo;</li>
+<li><code>odometer</code> column has to be cleaned to remove &lsquo;,&rsquo; and &lsquo;km&rsquo;</li>
+<li><code>dateCrawled</code>, <code>dateCreated</code> and <code>lastSeen</code> are datefields</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">org_col_names <span style="color:#f92672">=</span> autos<span style="color:#f92672">.</span>columns
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">org_col_names
+</code></pre></div><pre><code>Index(['dateCrawled', 'name', 'seller', 'offerType', 'price', 'abtest',
+       'vehicleType', 'yearOfRegistration', 'gearbox', 'powerPS', 'model',
+       'odometer', 'monthOfRegistration', 'fuelType', 'brand',
+       'notRepairedDamage', 'dateCreated', 'nrOfPictures', 'postalCode',
+       'lastSeen'],
+      dtype='object')
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">mod_col_names <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;date_crawled&#39;</span>, <span style="color:#e6db74">&#39;name&#39;</span>, <span style="color:#e6db74">&#39;seller&#39;</span>, <span style="color:#e6db74">&#39;offer_type&#39;</span>, <span style="color:#e6db74">&#39;price&#39;</span>, <span style="color:#e6db74">&#39;abtest&#39;</span>,
+                <span style="color:#e6db74">&#39;vehicle_type&#39;</span>, <span style="color:#e6db74">&#39;registration_year&#39;</span>, <span style="color:#e6db74">&#39;gear_box&#39;</span>, <span style="color:#e6db74">&#39;power_ps&#39;</span>, <span style="color:#e6db74">&#39;model&#39;</span>,
+                 <span style="color:#e6db74">&#39;odometer&#39;</span>, <span style="color:#e6db74">&#39;registration_month&#39;</span>, <span style="color:#e6db74">&#39;fuel_type&#39;</span>, <span style="color:#e6db74">&#39;brand&#39;</span>, <span style="color:#e6db74">&#39;unrepaired_damage&#39;</span>,
+                 <span style="color:#e6db74">&#39;ad_created&#39;</span>, <span style="color:#e6db74">&#39;nr_of_pictures&#39;</span>, <span style="color:#e6db74">&#39;postal_code&#39;</span>, <span style="color:#e6db74">&#39;last_seen&#39;</span>
+                ]
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">autos<span style="color:#f92672">.</span>columns <span style="color:#f92672">=</span> mod_col_names
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">autos<span style="color:#f92672">.</span>head()
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<p>Column names are changed from camelcase to the snakecase convention and 4 column names are changed to clear out a better understanding and a clear description</p>
+<h3 id="initial-exploration-and-cleaning">Initial exploration and cleaning</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">autos<span style="color:#f92672">.</span>describe(include<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;all&#39;</span>)
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<p>It can be seen that following columns have only two unique values</p>
+<ul>
+<li><code>seller</code>, <code>offer_type</code>, <code>abtest</code>, <code>gear_box</code>, <code>unrepaired_damage</code></li>
+</ul>
+<p>We will look at each of the unique values for these cols in detail</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">sel_cols <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;seller&#39;</span>, <span style="color:#e6db74">&#39;offer_type&#39;</span>, <span style="color:#e6db74">&#39;abtest&#39;</span>, <span style="color:#e6db74">&#39;gear_box&#39;</span>, <span style="color:#e6db74">&#39;unrepaired_damage&#39;</span>]
+
+<span style="color:#66d9ef">for</span> col <span style="color:#f92672">in</span> sel_cols:
+    series <span style="color:#f92672">=</span> autos[col]
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">Column: &#39;</span>,col)
+    <span style="color:#66d9ef">print</span>(series<span style="color:#f92672">.</span>value_counts())
+</code></pre></div><pre><code>Column:  seller
+privat        49999
+gewerblich        1
+Name: seller, dtype: int64
+
+
+Column:  offer_type
+Angebot    49999
+Gesuch         1
+Name: offer_type, dtype: int64
+
+
+Column:  abtest
+test       25756
+control    24244
+Name: abtest, dtype: int64
+
+
+Column:  gear_box
+manuell      36993
+automatik    10327
+Name: gear_box, dtype: int64
+
+
+Column:  unrepaired_damage
+nein    35232
+ja       4939
+Name: unrepaired_damage, dtype: int64
+</code></pre>
+<h4 id="observations">Observations</h4>
+<ol>
+<li>It can be further noted that the columns <code>seller</code> and <code>offer_type</code> are useless. Further, google translate states that
+<ul>
+<li>Only one entry in <code>seller</code> is &lsquo;commercial&rsquo;, rest all are &lsquo;private&rsquo; and,</li>
+<li>Only one entry in <code>offer_type</code> is &lsquo;request&rsquo;, rest all are &lsquo;offer&rsquo;</li>
+</ul>
+</li>
+<li><code>price</code> and <code>odometer</code> columns have to be cleaned and converted to float/int</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 1. dropping seller and offer_type cols </span>
+<span style="color:#75715e"># Note: Careful with executing this cell multiple times because of the method drop()</span>
+<span style="color:#75715e"># multiple executions will result in an error because after dropping the col, it can&#39;t find col to drop again</span>
+autos <span style="color:#f92672">=</span> autos<span style="color:#f92672">.</span>drop(columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;seller&#39;</span>, <span style="color:#e6db74">&#39;offer_type&#39;</span>])
+
+<span style="color:#75715e">#2. converting price and odometer cols to float</span>
+autos[<span style="color:#e6db74">&#39;price&#39;</span>] <span style="color:#f92672">=</span> autos[<span style="color:#e6db74">&#39;price&#39;</span>]<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;$&#39;</span>,<span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;,&#39;</span>,<span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>astype(float)
+autos[<span style="color:#e6db74">&#39;odometer&#39;</span>] <span style="color:#f92672">=</span> autos[<span style="color:#e6db74">&#39;odometer&#39;</span>]<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;km&#39;</span>,<span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;Km&#39;</span>,<span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;,&#39;</span>,<span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>astype(float)
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">autos<span style="color:#f92672">.</span>describe(include<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;all&#39;</span>)
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<p>It can be noted that someone listed a car with a price of 0$. Lets see price col in detail</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">autos[<span style="color:#e6db74">&#39;price&#39;</span>]<span style="color:#f92672">.</span>value_counts()
+</code></pre></div><pre><code>0.0           1421
+500.0          781
+1500.0         734
+2500.0         643
+1200.0         639
+1000.0         639
+600.0          531
+800.0          498
+3500.0         498
+2000.0         460
+999.0          434
+750.0          433
+900.0          420
+650.0          419
+850.0          410
+700.0          395
+4500.0         394
+300.0          384
+2200.0         382
+950.0          379
+1100.0         376
+1300.0         371
+3000.0         365
+550.0          356
+1800.0         355
+5500.0         340
+1250.0         335
+350.0          335
+1600.0         327
+1999.0         322
+              ... 
+2225.0           1
+69997.0          1
+139997.0         1
+69999.0          1
+4780.0           1
+8930.0           1
+21599.0          1
+15911.0          1
+10000000.0       1
+5180.0           1
+919.0            1
+1247.0           1
+5998.0           1
+27020.0          1
+21888.0          1
+46500.0          1
+2001.0           1
+2459.0           1
+345000.0         1
+34940.0          1
+2785.0           1
+5248.0           1
+310.0            1
+3129.0           1
+69900.0          1
+6202.0           1
+18310.0          1
+898.0            1
+11240.0          1
+789.0            1
+Name: price, Length: 2357, dtype: int64
+</code></pre>
+<p>Infact, 1421 entries are with a price of 0 $. These are wrong inputs and we will rename the column <code>odometer</code> to <code>odometer_km</code> for a better understanding</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">autos<span style="color:#f92672">.</span>rename(columns<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;odometer&#39;</span>:<span style="color:#e6db74">&#39;odometer_km&#39;</span>}, inplace<span style="color:#f92672">=</span>True)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#checking whether changes are reflected or not</span>
+autos<span style="color:#f92672">.</span>head(<span style="color:#ae81ff">3</span>)
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<h3 id="exploring-the-odometer_km-and-price-columns">Exploring the <code>odometer_km</code> and <code>price</code> columns</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">autos[<span style="color:#e6db74">&#39;odometer_km&#39;</span>]<span style="color:#f92672">.</span>describe()
+</code></pre></div><pre><code>count     50000.000000
+mean     125732.700000
+std       40042.211706
+min        5000.000000
+25%      125000.000000
+50%      150000.000000
+75%      150000.000000
+max      150000.000000
+Name: odometer_km, dtype: float64
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">autos[<span style="color:#e6db74">&#39;price&#39;</span>]<span style="color:#f92672">.</span>describe()
+</code></pre></div><pre><code>count    5.000000e+04
+mean     9.840044e+03
+std      4.811044e+05
+min      0.000000e+00
+25%      1.100000e+03
+50%      2.950000e+03
+75%      7.200000e+03
+max      1.000000e+08
+Name: price, dtype: float64
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">autos[<span style="color:#e6db74">&#39;price&#39;</span>]<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">.</span>sort_index(ascending <span style="color:#f92672">=</span> False)<span style="color:#f92672">.</span>head(<span style="color:#ae81ff">10</span>)
+</code></pre></div><pre><code>99999999.0    1
+27322222.0    1
+12345678.0    3
+11111111.0    2
+10000000.0    1
+3890000.0     1
+1300000.0     1
+1234566.0     1
+999999.0      2
+999990.0      1
+Name: price, dtype: int64
+</code></pre>
+<ol>
+<li>It could be observed that <code>odometer_km</code> has values between 5,000 and 150,000. This is perfectly reasonable and there are no outliers in this data.</li>
+<li>Whereas for <code>price</code>, it could be noted that there are wild variations in the price, some as low as 0-10 dollars  and some above 75000 dollars, some even as high as 10 million. Hence price column has to be cleaned</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">autos <span style="color:#f92672">=</span> autos[autos[<span style="color:#e6db74">&#39;price&#39;</span>]<span style="color:#f92672">.</span>between(<span style="color:#ae81ff">1000</span>,<span style="color:#ae81ff">75000</span>)]
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">autos[<span style="color:#e6db74">&#39;price&#39;</span>]<span style="color:#f92672">.</span>describe()
+</code></pre></div><pre><code>count    38558.000000
+mean      7029.210203
+std       7586.142730
+min       1000.000000
+25%       2200.000000
+50%       4300.000000
+75%       8900.000000
+max      75000.000000
+Name: price, dtype: float64
+</code></pre>
+<p>Since there are many wild entries in the price column, it is decided that we won&rsquo;t consider the prices below 1000 dollars and above 75,000 dollars. Thus our dataset has been reduced to 38558 rows</p>
+<h3 id="exploring-the-date-columns">Exploring the date columns</h3>
+<p>There are five columns corresponding to the date.</p>
+<ul>
+<li><code>date_crawled</code></li>
+<li><code>last_seen</code></li>
+<li><code>ad_created</code></li>
+<li><code>registration_month</code></li>
+<li><code>registration_year</code></li>
+</ul>
+<p>Of these 5, only <code>registration_month</code> and <code>registration_year</code> are integer fields. Rest 3 are string representations. They have to be converted to numerical representations to do meaningful data analysis.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">autos[[<span style="color:#e6db74">&#39;date_crawled&#39;</span>,<span style="color:#e6db74">&#39;last_seen&#39;</span>,<span style="color:#e6db74">&#39;ad_created&#39;</span>]]<span style="color:#f92672">.</span>head(<span style="color:#ae81ff">3</span>)
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<p>These 3 columns have to be converted to the string representations</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">date_cols <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;date_crawled&#39;</span>,<span style="color:#e6db74">&#39;last_seen&#39;</span>,<span style="color:#e6db74">&#39;ad_created&#39;</span>,<span style="color:#e6db74">&#39;registration_month&#39;</span>,<span style="color:#e6db74">&#39;registration_year&#39;</span>]
+
+<span style="color:#66d9ef">print</span>(autos[<span style="color:#e6db74">&#39;date_crawled&#39;</span>]<span style="color:#f92672">.</span>value_counts(normalize <span style="color:#f92672">=</span> True, dropna <span style="color:#f92672">=</span> False)<span style="color:#f92672">.</span>sort_index())
+<span style="color:#66d9ef">print</span>(autos[<span style="color:#e6db74">&#39;last_seen&#39;</span>]<span style="color:#f92672">.</span>value_counts(normalize <span style="color:#f92672">=</span> True, dropna <span style="color:#f92672">=</span> False)<span style="color:#f92672">.</span>sort_index())
+autos[<span style="color:#e6db74">&#39;ad_created&#39;</span>]<span style="color:#f92672">.</span>value_counts(normalize <span style="color:#f92672">=</span> True, dropna <span style="color:#f92672">=</span> False)<span style="color:#f92672">.</span>sort_index()
+</code></pre></div><pre><code>2016-03-05 14:06:30    0.000026
+2016-03-05 14:06:40    0.000026
+2016-03-05 14:07:21    0.000026
+2016-03-05 14:07:26    0.000026
+2016-03-05 14:07:40    0.000026
+2016-03-05 14:07:45    0.000026
+2016-03-05 14:08:00    0.000052
+2016-03-05 14:08:05    0.000052
+2016-03-05 14:08:42    0.000026
+2016-03-05 14:09:02    0.000052
+2016-03-05 14:09:05    0.000026
+2016-03-05 14:09:22    0.000026
+2016-03-05 14:09:38    0.000026
+2016-03-05 14:09:46    0.000026
+2016-03-05 14:09:57    0.000026
+2016-03-05 14:09:58    0.000052
+2016-03-05 14:10:20    0.000026
+2016-03-05 14:10:46    0.000026
+2016-03-05 14:11:03    0.000026
+2016-03-05 14:11:05    0.000026
+2016-03-05 14:11:14    0.000026
+2016-03-05 14:11:25    0.000026
+2016-03-05 14:11:40    0.000026
+2016-03-05 14:11:56    0.000026
+2016-03-05 14:12:20    0.000026
+2016-03-05 14:12:32    0.000026
+2016-03-05 14:12:34    0.000026
+2016-03-05 14:12:35    0.000026
+2016-03-05 14:12:41    0.000026
+2016-03-05 14:12:54    0.000026
+                         ...   
+2016-04-07 09:06:19    0.000026
+2016-04-07 09:36:17    0.000026
+2016-04-07 09:36:19    0.000026
+2016-04-07 10:36:17    0.000026
+2016-04-07 10:36:19    0.000026
+2016-04-07 10:36:24    0.000026
+2016-04-07 10:36:25    0.000026
+2016-04-07 10:36:35    0.000026
+2016-04-07 10:36:36    0.000026
+2016-04-07 10:36:37    0.000052
+2016-04-07 11:06:33    0.000026
+2016-04-07 11:36:19    0.000026
+2016-04-07 11:36:23    0.000026
+2016-04-07 11:36:24    0.000026
+2016-04-07 11:36:25    0.000026
+2016-04-07 11:36:34    0.000026
+2016-04-07 12:06:19    0.000026
+2016-04-07 12:06:23    0.000026
+2016-04-07 12:25:34    0.000026
+2016-04-07 12:25:35    0.000026
+2016-04-07 13:25:39    0.000026
+2016-04-07 13:36:19    0.000026
+2016-04-07 13:36:20    0.000026
+2016-04-07 13:36:37    0.000026
+2016-04-07 14:07:04    0.000026
+2016-04-07 14:30:09    0.000026
+2016-04-07 14:30:26    0.000026
+2016-04-07 14:36:44    0.000026
+2016-04-07 14:36:55    0.000026
+2016-04-07 14:36:56    0.000026
+Name: date_crawled, Length: 37493, dtype: float64
+2016-03-05 14:46:02    0.000026
+2016-03-05 14:49:34    0.000026
+2016-03-05 15:16:11    0.000026
+2016-03-05 15:16:47    0.000026
+2016-03-05 15:28:10    0.000026
+2016-03-05 15:41:30    0.000026
+2016-03-05 15:45:43    0.000026
+2016-03-05 15:47:38    0.000026
+2016-03-05 15:47:44    0.000026
+2016-03-05 16:45:57    0.000026
+2016-03-05 17:15:45    0.000026
+2016-03-05 17:16:14    0.000026
+2016-03-05 17:17:02    0.000026
+2016-03-05 17:39:19    0.000026
+2016-03-05 17:40:14    0.000026
+2016-03-05 17:44:50    0.000026
+2016-03-05 17:44:54    0.000026
+2016-03-05 18:17:58    0.000026
+2016-03-05 18:50:38    0.000026
+2016-03-05 19:15:08    0.000026
+2016-03-05 19:15:42    0.000026
+2016-03-05 19:16:36    0.000026
+2016-03-05 19:17:17    0.000026
+2016-03-05 19:17:50    0.000026
+2016-03-05 19:32:34    0.000026
+2016-03-05 19:45:47    0.000026
+2016-03-05 19:46:20    0.000026
+2016-03-05 20:15:42    0.000026
+2016-03-05 20:15:53    0.000026
+2016-03-05 20:16:33    0.000026
+                         ...   
+2016-04-07 14:58:06    0.000026
+2016-04-07 14:58:07    0.000026
+2016-04-07 14:58:09    0.000052
+2016-04-07 14:58:10    0.000052
+2016-04-07 14:58:12    0.000026
+2016-04-07 14:58:13    0.000026
+2016-04-07 14:58:14    0.000026
+2016-04-07 14:58:17    0.000052
+2016-04-07 14:58:18    0.000130
+2016-04-07 14:58:20    0.000026
+2016-04-07 14:58:21    0.000078
+2016-04-07 14:58:22    0.000026
+2016-04-07 14:58:24    0.000052
+2016-04-07 14:58:26    0.000052
+2016-04-07 14:58:27    0.000026
+2016-04-07 14:58:28    0.000052
+2016-04-07 14:58:29    0.000078
+2016-04-07 14:58:31    0.000052
+2016-04-07 14:58:33    0.000026
+2016-04-07 14:58:34    0.000052
+2016-04-07 14:58:36    0.000078
+2016-04-07 14:58:37    0.000026
+2016-04-07 14:58:40    0.000026
+2016-04-07 14:58:41    0.000026
+2016-04-07 14:58:42    0.000052
+2016-04-07 14:58:44    0.000078
+2016-04-07 14:58:45    0.000026
+2016-04-07 14:58:46    0.000026
+2016-04-07 14:58:48    0.000078
+2016-04-07 14:58:50    0.000078
+Name: last_seen, Length: 31180, dtype: float64
+
+
+
+
+
+2015-06-11 00:00:00    0.000026
+2015-08-10 00:00:00    0.000026
+2015-09-09 00:00:00    0.000026
+2015-11-10 00:00:00    0.000026
+2015-12-30 00:00:00    0.000026
+2016-01-03 00:00:00    0.000026
+2016-01-07 00:00:00    0.000026
+2016-01-10 00:00:00    0.000052
+2016-01-13 00:00:00    0.000026
+2016-01-14 00:00:00    0.000026
+2016-01-16 00:00:00    0.000026
+2016-01-22 00:00:00    0.000026
+2016-01-27 00:00:00    0.000078
+2016-01-29 00:00:00    0.000026
+2016-02-01 00:00:00    0.000026
+2016-02-02 00:00:00    0.000052
+2016-02-05 00:00:00    0.000052
+2016-02-07 00:00:00    0.000026
+2016-02-09 00:00:00    0.000026
+2016-02-11 00:00:00    0.000026
+2016-02-12 00:00:00    0.000052
+2016-02-14 00:00:00    0.000052
+2016-02-16 00:00:00    0.000026
+2016-02-17 00:00:00    0.000026
+2016-02-18 00:00:00    0.000052
+2016-02-19 00:00:00    0.000078
+2016-02-20 00:00:00    0.000026
+2016-02-21 00:00:00    0.000052
+2016-02-22 00:00:00    0.000026
+2016-02-23 00:00:00    0.000104
+                         ...   
+2016-03-09 00:00:00    0.032704
+2016-03-10 00:00:00    0.033041
+2016-03-11 00:00:00    0.033119
+2016-03-12 00:00:00    0.037165
+2016-03-13 00:00:00    0.017688
+2016-03-14 00:00:00    0.034986
+2016-03-15 00:00:00    0.033430
+2016-03-16 00:00:00    0.029618
+2016-03-17 00:00:00    0.030162
+2016-03-18 00:00:00    0.013253
+2016-03-19 00:00:00    0.034104
+2016-03-20 00:00:00    0.038280
+2016-03-21 00:00:00    0.037528
+2016-03-22 00:00:00    0.032237
+2016-03-23 00:00:00    0.031952
+2016-03-24 00:00:00    0.028995
+2016-03-25 00:00:00    0.030681
+2016-03-26 00:00:00    0.033197
+2016-03-27 00:00:00    0.031200
+2016-03-28 00:00:00    0.035375
+2016-03-29 00:00:00    0.034001
+2016-03-30 00:00:00    0.032886
+2016-03-31 00:00:00    0.031563
+2016-04-01 00:00:00    0.034364
+2016-04-02 00:00:00    0.036024
+2016-04-03 00:00:00    0.039421
+2016-04-04 00:00:00    0.037320
+2016-04-05 00:00:00    0.011982
+2016-04-06 00:00:00    0.003372
+2016-04-07 00:00:00    0.001323
+Name: ad_created, Length: 74, dtype: float64
+</code></pre>
+<p>Two things could be observed from this.</p>
+<ul>
+<li><code>date_crawled</code> and <code>last_seen</code> : There is no distribution, data is all over the place</li>
+<li><code>ad_created</code> distribution is significant and it could be seen that all ads are created at the midnight. So time column can be deleted from the dataset</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span>(autos[<span style="color:#e6db74">&#39;registration_year&#39;</span>]<span style="color:#f92672">.</span>value_counts(normalize <span style="color:#f92672">=</span> True, dropna <span style="color:#f92672">=</span> False)<span style="color:#f92672">.</span>sort_index(ascending <span style="color:#f92672">=</span> True))
+<span style="color:#66d9ef">print</span>(autos[<span style="color:#e6db74">&#39;registration_month&#39;</span>]<span style="color:#f92672">.</span>value_counts(normalize <span style="color:#f92672">=</span> True, dropna <span style="color:#f92672">=</span> False)<span style="color:#f92672">.</span>sort_index())
+</code></pre></div><pre><code>1000    0.000026
+1001    0.000026
+1927    0.000026
+1929    0.000026
+1931    0.000026
+1934    0.000052
+1937    0.000104
+1938    0.000026
+1939    0.000026
+1941    0.000052
+1943    0.000026
+1948    0.000026
+1950    0.000026
+1951    0.000026
+1952    0.000026
+1953    0.000026
+1954    0.000052
+1955    0.000026
+1956    0.000104
+1957    0.000052
+1958    0.000078
+1959    0.000156
+1960    0.000441
+1961    0.000156
+1962    0.000104
+1963    0.000182
+1964    0.000233
+1965    0.000441
+1966    0.000545
+1967    0.000648
+          ...   
+1999    0.044712
+2000    0.051870
+2001    0.053530
+2002    0.055371
+2003    0.064241
+2004    0.067612
+2005    0.072229
+2006    0.068728
+2007    0.058561
+2008    0.057083
+2009    0.053763
+2010    0.040951
+2011    0.041781
+2012    0.033741
+2013    0.020437
+2014    0.016728
+2015    0.009233
+2016    0.016728
+2017    0.026142
+2018    0.010322
+2019    0.000026
+2800    0.000026
+4100    0.000026
+4500    0.000026
+5000    0.000052
+5911    0.000026
+6200    0.000026
+8888    0.000026
+9000    0.000026
+9999    0.000052
+Name: registration_year, Length: 91, dtype: float64
+0     0.062840
+1     0.066731
+2     0.062322
+3     0.104673
+4     0.085585
+5     0.085093
+6     0.091187
+7     0.082214
+8     0.066030
+9     0.072384
+10    0.077234
+11    0.072825
+12    0.070880
+Name: registration_month, dtype: float64
+</code></pre>
+<p>It can also be observed that some rows in <code>registration_year</code> are erroneous. Anything below 1990 and above 2016 could be discarded. It should be noted that data is scraped in 2016, so anything above 2016 is erroneous.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">autos <span style="color:#f92672">=</span> autos[autos[<span style="color:#e6db74">&#39;registration_year&#39;</span>]<span style="color:#f92672">.</span>between(<span style="color:#ae81ff">1990</span>,<span style="color:#ae81ff">2016</span>)]
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">autos[<span style="color:#e6db74">&#39;registration_year&#39;</span>]<span style="color:#f92672">.</span>value_counts(normalize <span style="color:#f92672">=</span> True)
+</code></pre></div><pre><code>2005    0.077262
+2006    0.073517
+2004    0.072324
+2003    0.068718
+2007    0.062642
+2008    0.061061
+2002    0.059230
+2009    0.057510
+2001    0.057260
+2000    0.055485
+1999    0.047828
+2011    0.044693
+2010    0.043805
+2012    0.036093
+1998    0.035482
+2013    0.021861
+1997    0.021778
+2016    0.017894
+2014    0.017894
+1996    0.015009
+1995    0.012234
+2015    0.009876
+1994    0.007518
+1993    0.006048
+1992    0.006020
+1991    0.005743
+1990    0.005216
+Name: registration_year, dtype: float64
+</code></pre>
+<h3 id="exploring-price-by-brand">Exploring Price by Brand</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">brands_val <span style="color:#f92672">=</span> autos[<span style="color:#e6db74">&#39;brand&#39;</span>]<span style="color:#f92672">.</span>value_counts()
+<span style="color:#66d9ef">print</span>(brands_val)
+</code></pre></div><pre><code>volkswagen        7604
+bmw               4574
+mercedes_benz     3917
+audi              3599
+opel              3244
+ford              2108
+renault           1374
+peugeot           1037
+fiat               753
+skoda              707
+seat               643
+smart              618
+toyota             536
+mazda              527
+citroen            503
+nissan             502
+mini               402
+hyundai            400
+volvo              317
+kia                286
+honda              264
+mitsubishi         255
+sonstige_autos     253
+chevrolet          216
+alfa_romeo         213
+suzuki             212
+porsche            203
+dacia              122
+chrysler           113
+jeep               100
+land_rover          92
+jaguar              66
+daihatsu            63
+subaru              61
+saab                50
+daewoo              34
+rover               27
+lancia              23
+lada                20
+trabant              8
+Name: brand, dtype: int64
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tot_cars <span style="color:#f92672">=</span> autos[<span style="color:#e6db74">&#39;brand&#39;</span>]<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">.</span>sum()
+<span style="color:#66d9ef">print</span>(tot_cars)
+</code></pre></div><pre><code>36046
+</code></pre>
+<p>Total number of cars for all brands = 36046, We would be considering only the brands, which make up more than 1 % of the total listed cars.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">interested_brands <span style="color:#f92672">=</span> [] <span style="color:#75715e">#making list of brands which have more than 1% listings</span>
+<span style="color:#66d9ef">for</span> brand, val <span style="color:#f92672">in</span> brands_val<span style="color:#f92672">.</span>iteritems():
+    <span style="color:#66d9ef">if</span> (val<span style="color:#f92672">/</span>tot_cars)<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0.01</span>:
+        interested_brands<span style="color:#f92672">.</span>append(brand)
+        
+interested_brands
+
+</code></pre></div><pre><code>['volkswagen',
+ 'bmw',
+ 'mercedes_benz',
+ 'audi',
+ 'opel',
+ 'ford',
+ 'renault',
+ 'peugeot',
+ 'fiat',
+ 'skoda',
+ 'seat',
+ 'smart',
+ 'toyota',
+ 'mazda',
+ 'citroen',
+ 'nissan',
+ 'mini',
+ 'hyundai']
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">brand_mean_prices <span style="color:#f92672">=</span> {}
+brand_mean_mileage <span style="color:#f92672">=</span> {}
+<span style="color:#66d9ef">for</span> brand <span style="color:#f92672">in</span> interested_brands:
+    avg_brand <span style="color:#f92672">=</span> autos<span style="color:#f92672">.</span>loc[autos[<span style="color:#e6db74">&#39;brand&#39;</span>] <span style="color:#f92672">==</span> brand,<span style="color:#e6db74">&#39;price&#39;</span>]<span style="color:#f92672">.</span>mean()
+    avg_mileage <span style="color:#f92672">=</span> autos<span style="color:#f92672">.</span>loc[autos[<span style="color:#e6db74">&#39;brand&#39;</span>] <span style="color:#f92672">==</span> brand,<span style="color:#e6db74">&#39;odometer_km&#39;</span>]<span style="color:#f92672">.</span>mean()
+    brand_mean_prices[brand] <span style="color:#f92672">=</span> avg_brand
+    brand_mean_mileage[brand] <span style="color:#f92672">=</span> avg_mileage
+    
+<span style="color:#66d9ef">print</span>(pd<span style="color:#f92672">.</span>Series(brand_mean_prices)<span style="color:#f92672">.</span>sort_values(ascending <span style="color:#f92672">=</span> True))
+<span style="color:#75715e">#print()</span>
+</code></pre></div><pre><code>renault           3510.434498
+smart             3780.469256
+fiat              3884.151394
+peugeot           3948.376085
+opel              4203.332922
+citroen           4471.831014
+ford              4917.289374
+mazda             5327.455408
+toyota            5563.102612
+seat              5638.640747
+hyundai           6181.872500
+nissan            6445.464143
+volkswagen        6647.213835
+skoda             6841.906648
+bmw               9012.056843
+mercedes_benz     9107.126628
+audi             10314.614893
+mini             10742.965174
+dtype: float64
+</code></pre>
+<p><strong>Analysis</strong>:</p>
+<ul>
+<li>The costliest brand is mini, the second costliest is audi</li>
+<li>The cheapest brand is renault followed by smart</li>
+</ul>
+<h3 id="storing-aggregate-data-in-a-dataframe">Storing aggregate data in a DataFrame</h3>
+<p>We want to store two dictionaries, <code>brand_mean_prices</code> and <code>brand_mean_mileage</code> as a DataFrame. This is achieved in two steps</p>
+<ul>
+<li>First, we will make two individual<code>pd.Series</code></li>
+<li>Second, we will combine these two <code>pd.Series</code> into a <code>pd.DataFrame</code></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">brand_mean_prices_series <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series(brand_mean_prices)
+brand_mean_mileage_series <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series(brand_mean_mileage)
+brand_mean_prices_mileage_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(brand_mean_prices_series)
+brand_mean_prices_mileage_df<span style="color:#f92672">.</span>columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;mean_price&#39;</span>]
+brand_mean_prices_mileage_df[<span style="color:#e6db74">&#39;mean_mileage&#39;</span>] <span style="color:#f92672">=</span> brand_mean_mileage_series
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">brand_mean_prices_mileage_df
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">(brand_mean_prices_mileage_df[<span style="color:#e6db74">&#39;mean_price&#39;</span>]<span style="color:#f92672">/</span>brand_mean_prices_mileage_df[<span style="color:#e6db74">&#39;mean_mileage&#39;</span>])<span style="color:#f92672">.</span>sort_values(ascending <span style="color:#f92672">=</span> True)
+</code></pre></div><pre><code>renault          0.028855
+peugeot          0.032255
+opel             0.033736
+fiat             0.035575
+smart            0.038665
+citroen          0.038953
+ford             0.040667
+mazda            0.044402
+seat             0.048565
+toyota           0.048926
+volkswagen       0.052695
+nissan           0.058521
+hyundai          0.060688
+skoda            0.062032
+bmw              0.068182
+mercedes_benz    0.069950
+audi             0.080989
+mini             0.120920
+dtype: float64
+</code></pre>
+<h3 id="conclusion">Conclusion</h3>
+<p>The point here is that a new Honda maybe valuable than a 100,000Km run Audi. So we shouldn&rsquo;t just look at the <code>mean_price</code> but at <code>mean_price</code>/<code>mean_mileage</code>. This will give us the relative cost w.r.t distance it has clocked, because ideally we want a car that has less number of mileage, but even then if the price is higher, it says that brand commands more value, because of its value. Based on this criteria, we can say that,</p>
+<ul>
+<li><code>mini</code> is the costliest brand</li>
+<li><code>audi</code> is the next costliest brand and,</li>
+<li><code>renault</code> commands the lowest brand value in the given data set</li>
+</ul>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pavankumar.in/2020/11/analysis-college-branch-vs-salary-among-graduates/" data-tooltip="Analysis: College Branch vs salary among graduates">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pavankumar.in/2020/10/analysis-profitable-apps-on-appstore-and-playstore/" data-tooltip="Analysis: Profitable apps on AppStore and PlayStore">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pavankumar.in/2020/10/used-cars-various-car-brands-and-their-resale-value./">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pavankumar.in/2020/10/used-cars-various-car-brands-and-their-resale-value./">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pavankumar.in/2020/10/used-cars-various-car-brands-and-their-resale-value./">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2020 Pavan Kumar. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pavankumar.in/2020/11/analysis-college-branch-vs-salary-among-graduates/" data-tooltip="Analysis: College Branch vs salary among graduates">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pavankumar.in/2020/10/analysis-profitable-apps-on-appstore-and-playstore/" data-tooltip="Analysis: Profitable apps on AppStore and PlayStore">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pavankumar.in/2020/10/used-cars-various-car-brands-and-their-resale-value./">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pavankumar.in/2020/10/used-cars-various-car-brands-and-their-resale-value./">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pavankumar.in/2020/10/used-cars-various-car-brands-and-their-resale-value./">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpavankumar.in%2F2020%2F10%2Fused-cars-various-car-brands-and-their-resale-value.%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpavankumar.in%2F2020%2F10%2Fused-cars-various-car-brands-and-their-resale-value.%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpavankumar.in%2F2020%2F10%2Fused-cars-various-car-brands-and-their-resale-value.%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://pavankumar.in/images/dp2.jpg" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Pavan Kumar</h4>
+    
+      <div id="about-card-bio">I am Data Science and Software enthusiast. I am specialized in C++ and Python. For a detailed CV, click <a href = "\cv">here.</a></div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Software Engineer
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        India
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    <div id="cover" style="background-image:url('https://res.cloudinary.com/pavan8k/image/upload/v1605034816/site_assets/bg1_skjhyf.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://pavankumar.in/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/pavankumar.in\/2020\/10\/used-cars-various-car-brands-and-their-resale-value.\/';
+          
+            this.page.identifier = '\/2020\/10\/used-cars-various-car-brands-and-their-resale-value.\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'https-pavankumar-in';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

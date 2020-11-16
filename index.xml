@@ -6,122 +6,86 @@
     <description>Recent content on Pavan Kumar&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 15 Jun 2015 00:00:00 +0000</lastBuildDate><atom:link href="https://pavankumar.in/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 07 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://pavankumar.in/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Welcome to Tranquilpeak 0.4.8-BETA</title>
-      <link>https://pavankumar.in/2015/06/welcome-to-tranquilpeak-0.4.8-beta/</link>
-      <pubDate>Mon, 15 Jun 2015 00:00:00 +0000</pubDate>
+      <title>Cv</title>
+      <link>https://pavankumar.in/cv/</link>
+      <pubDate>Mon, 16 Nov 2020 09:46:40 +0530</pubDate>
       
-      <guid>https://pavankumar.in/2015/06/welcome-to-tranquilpeak-0.4.8-beta/</guid>
-      <description>&lt;p&gt;Tranquilpeak is a gorgeous responsive theme for Hugo blog framework. It has many features and integrated services to improve user experience.&lt;/p&gt;</description>
+      <guid>https://pavankumar.in/cv/</guid>
+      <description></description>
     </item>
     
     <item>
-      <title>Who&#39;s using Tranquilpeak Hugo Theme</title>
-      <link>https://pavankumar.in/2015/06/who-is-using-tranquilpeak-hugo-theme/</link>
-      <pubDate>Sun, 14 Jun 2015 00:00:00 +0000</pubDate>
+      <title>Analysis: College Branch vs salary among graduates</title>
+      <link>https://pavankumar.in/2020/11/analysis-college-branch-vs-salary-among-graduates/</link>
+      <pubDate>Sat, 07 Nov 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://pavankumar.in/2015/06/who-is-using-tranquilpeak-hugo-theme/</guid>
-      <description>&lt;p&gt;Here you can find a list of the blogs that use Tranquilpeak theme, with different styles and customizations.&lt;/p&gt;</description>
+      <guid>https://pavankumar.in/2020/11/analysis-college-branch-vs-salary-among-graduates/</guid>
+      <description>&lt;p&gt;Based on the data, one can see the relationship between various college branches or majors and the salaries of the graduates. Read on to find out % of women, STEM etc:- have any correlation on the salries of the gradutes.&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>Elements showcase</title>
-      <link>https://pavankumar.in/2015/05/elements-showcase/</link>
-      <pubDate>Thu, 28 May 2015 00:00:00 +0000</pubDate>
+      <title>Used cars: Various car brands and their resale value.</title>
+      <link>https://pavankumar.in/2020/10/used-cars-various-car-brands-and-their-resale-value./</link>
+      <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://pavankumar.in/2015/05/elements-showcase/</guid>
-      <description>&lt;p&gt;Check out how Tranquilpeak theme display well HTML elements (title, paragraph, blockquote, table and more..). It&amp;rsquo;s simple and elegant.&lt;/p&gt;</description>
+      <guid>https://pavankumar.in/2020/10/used-cars-various-car-brands-and-their-resale-value./</guid>
+      <description>&lt;p&gt;I have used pandas and ebay car sales data of Germany to analyse resale values of major car brands. Read on to find out the costliest car brand, best value for money car brand etc:-&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>Cover image showcase</title>
-      <link>https://pavankumar.in/2015/05/cover-image-showcase/</link>
-      <pubDate>Wed, 13 May 2015 00:00:00 +0000</pubDate>
+      <title>Analysis: Profitable apps on AppStore and PlayStore</title>
+      <link>https://pavankumar.in/2020/10/analysis-profitable-apps-on-appstore-and-playstore/</link>
+      <pubDate>Thu, 15 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://pavankumar.in/2015/05/cover-image-showcase/</guid>
-      <description>&lt;p&gt;Tranquilpeak integrate a unique &amp;ldquo;cover image&amp;rdquo; feature. Open this post to see how this feature sublimate your article.&lt;/p&gt;</description>
+      <guid>https://pavankumar.in/2020/10/analysis-profitable-apps-on-appstore-and-playstore/</guid>
+      <description>&lt;p&gt;What do all profitable apps have in common ? From a DataScience perspective, have a look at the profiles of the most profitable apps on Appstore and Playstore. Read on to find out which category of apps have more chance to succeed&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>highlighted code showcase</title>
-      <link>https://pavankumar.in/2015/03/highlighted-code-showcase/</link>
-      <pubDate>Mon, 23 Mar 2015 00:00:00 +0000</pubDate>
+      <title>DataScience: From exit surveys, understanding why employees are really leaving an organization</title>
+      <link>https://pavankumar.in/2020/09/datascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization/</link>
+      <pubDate>Wed, 02 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://pavankumar.in/2015/03/highlighted-code-showcase/</guid>
-      <description>&lt;p&gt;Tranquilpeak Hugo theme have its own theme to highlight source code. It&amp;rsquo;s based on GitHub theme: simple and elegant. Check out how it sublimate source codes.&lt;/p&gt;</description>
+      <guid>https://pavankumar.in/2020/09/datascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization/</guid>
+      <description>&lt;p&gt;In this post, using a real case dataset of the exit surveys, let&amp;rsquo;s find out why the employees are leaving.&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>Tags plugins showcase</title>
-      <link>https://pavankumar.in/2014/10/tags-plugins-showcase/</link>
-      <pubDate>Wed, 29 Oct 2014 00:00:00 +0000</pubDate>
+      <title>Analysing NewYork city high school SAT scores</title>
+      <link>https://pavankumar.in/2020/07/analysing-newyork-city-high-school-sat-scores/</link>
+      <pubDate>Sun, 12 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://pavankumar.in/2014/10/tags-plugins-showcase/</guid>
-      <description>&lt;p&gt;This post is used to show how tag plugins are displayed. See &lt;a href=&#34;https://github.com/kakawait/hugo-tranquilpeak-theme/blob/master/docs/user.md#tags&#34;&gt;docs&lt;/a&gt; for more info.&lt;/p&gt;</description>
+      <guid>https://pavankumar.in/2020/07/analysing-newyork-city-high-school-sat-scores/</guid>
+      <description>&lt;p&gt;In this post, using pandas I will try to analyse New York city&amp;rsquo;s high school SAT scores, and will try to look at any possible correlation between scores and gender, race, financial background, geographical location of schools.&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>Hidden social section showcase</title>
-      <link>https://pavankumar.in/2014/08/hidden-social-section-showcase/</link>
-      <pubDate>Sun, 17 Aug 2014 00:00:00 +0000</pubDate>
+      <title>What kind of posts attract higher user engagement?</title>
+      <link>https://pavankumar.in/2020/06/what-kind-of-posts-attract-higher-user-engagement/</link>
+      <pubDate>Mon, 29 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://pavankumar.in/2014/08/hidden-social-section-showcase/</guid>
-      <description>&lt;p&gt;This post is used to show how a site looks if the social section is hidden.&lt;/p&gt;</description>
+      <guid>https://pavankumar.in/2020/06/what-kind-of-posts-attract-higher-user-engagement/</guid>
+      <description>&lt;p&gt;Taking an example of HackerNews, let us look at what kind of posts attract higher user engagement.&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>Hidden tag section showcase</title>
-      <link>https://pavankumar.in/2014/08/hidden-tag-section-showcase/</link>
-      <pubDate>Sat, 16 Aug 2014 00:00:00 +0000</pubDate>
+      <title>Gender gap in college graduates.</title>
+      <link>https://pavankumar.in/2020/01/gender-gap-in-college-graduates./</link>
+      <pubDate>Sat, 04 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://pavankumar.in/2014/08/hidden-tag-section-showcase/</guid>
-      <description>&lt;p&gt;This post is used to show how a site looks if the tag section is hidden.&lt;/p&gt;</description>
+      <guid>https://pavankumar.in/2020/01/gender-gap-in-college-graduates./</guid>
+      <description>&lt;p&gt;Is the gender gap in college graduates still existing? Are we closing the gender gap or in fields like STEM, is it further increasing? Read on to find out&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>Hidden pagination showcase</title>
-      <link>https://pavankumar.in/2014/08/hidden-pagination-showcase/</link>
-      <pubDate>Fri, 15 Aug 2014 00:00:00 +0000</pubDate>
+      <title>Understanding star wars survey</title>
+      <link>https://pavankumar.in/2019/12/understanding-star-wars-survey/</link>
+      <pubDate>Mon, 16 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://pavankumar.in/2014/08/hidden-pagination-showcase/</guid>
-      <description>&lt;p&gt;This post is used to show how a site looks if the pagination is hidden.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Video integrations showcase</title>
-      <link>https://pavankumar.in/2014/08/video-integrations-showcase/</link>
-      <pubDate>Sat, 09 Aug 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://pavankumar.in/2014/08/video-integrations-showcase/</guid>
-      <description>&lt;p&gt;Youtube and Vimeo videos are easily integrated thanks to tags plugins. Of course, you can add video other platforms like dailymotion.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>中文測試</title>
-      <link>https://pavankumar.in/2013/10/chinese-test/</link>
-      <pubDate>Wed, 02 Oct 2013 00:00:00 +0000</pubDate>
-      
-      <guid>https://pavankumar.in/2013/10/chinese-test/</guid>
-      <description>&lt;p&gt;This is a chinese test post to show you how chinese is displayed.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Image gallery showcase</title>
-      <link>https://pavankumar.in/2013/02/image-gallery-showcase/</link>
-      <pubDate>Mon, 18 Feb 2013 00:00:00 +0000</pubDate>
-      
-      <guid>https://pavankumar.in/2013/02/image-gallery-showcase/</guid>
-      <description>&lt;p&gt;And here is the image gallery!&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>日本語テスト</title>
-      <link>https://pavankumar.in/2013/01/japanese-test/</link>
-      <pubDate>Wed, 02 Jan 2013 00:00:00 +0000</pubDate>
-      
-      <guid>https://pavankumar.in/2013/01/japanese-test/</guid>
-      <description>&lt;p&gt;This is a Japanese test post to show you how japanese is displayed.&lt;/p&gt;</description>
+      <guid>https://pavankumar.in/2019/12/understanding-star-wars-survey/</guid>
+      <description>&lt;p&gt;In this post, using pandas we will understand more about fan&amp;rsquo;s choice on favourite star war&amp;rsquo;s characters, films etc:-&lt;/p&gt;</description>
     </item>
     
   </channel>

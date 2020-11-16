@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.78.1 with theme Tranquilpeak 0.4.8-BETA">
+<meta name="author" content="Pavan Kumar">
+<meta name="keywords" content="Appstore, Playstore, profitable apps">
+<meta name="description" content="In this post, using pandas I will try to analyse New York city&rsquo;s high school SAT scores, and will try to look at any possible correlation between scores and gender, race, financial background, geographical location of schools.">
+
+
+<meta property="og:description" content="In this post, using pandas I will try to analyse New York city&rsquo;s high school SAT scores, and will try to look at any possible correlation between scores and gender, race, financial background, geographical location of schools.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Analysing NewYork city high school SAT scores">
+<meta name="twitter:title" content="Analysing NewYork city high school SAT scores">
+<meta property="og:url" content="https://pavankumar.in/2020/07/analysing-newyork-city-high-school-sat-scores/">
+<meta property="twitter:url" content="https://pavankumar.in/2020/07/analysing-newyork-city-high-school-sat-scores/">
+<meta property="og:site_name" content="Pavan Kumar&#39;s Blog">
+<meta property="og:description" content="In this post, using pandas I will try to analyse New York city&rsquo;s high school SAT scores, and will try to look at any possible correlation between scores and gender, race, financial background, geographical location of schools.">
+<meta name="twitter:description" content="In this post, using pandas I will try to analyse New York city&rsquo;s high school SAT scores, and will try to look at any possible correlation between scores and gender, race, financial background, geographical location of schools.">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2020-07-12T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2020-07-12T00:00:00">
+  
+  
+  
+    
+      <meta property="article:section" content="DataScience">
+    
+  
+  
+
+
+<meta name="twitter:card" content="summary">
+
+  <meta name="twitter:site" content="@pavankumar_8">
+
+
+  <meta name="twitter:creator" content="@pavankumar_8">
+
+
+
+
+
+
+  <meta property="og:image" content="https://res.cloudinary.com/pavan8k/image/upload/v1605462584/site_assets/posts/pexels-jeswin-thomas-3380743_umqsgr.jpg">
+  <meta property="twitter:image" content="https://res.cloudinary.com/pavan8k/image/upload/v1605462584/site_assets/posts/pexels-jeswin-thomas-3380743_umqsgr.jpg">
+
+
+  <meta property="og:image" content="https://res.cloudinary.com/pavan8k/image/upload/v1605462584/site_assets/posts/pexels-jeswin-thomas-3380743_umqsgr.jpg">
+  <meta property="twitter:image" content="https://res.cloudinary.com/pavan8k/image/upload/v1605462584/site_assets/posts/pexels-jeswin-thomas-3380743_umqsgr.jpg">
+
+
+
+
+  <meta property="og:image" content="https://pavankumar.in/images/dp2.jpg">
+  <meta property="twitter:image" content="https://pavankumar.in/images/dp2.jpg">
+
+
+    <title>Analysing NewYork city high school SAT scores</title>
+
+    <link rel="icon" href="https://res.cloudinary.com/pavan8k/image/upload/v1605075896/site_assets/favicon-32x32_zvu8uj.png">
+    
+
+    
+
+    <link rel="canonical" href="https://pavankumar.in/2020/07/analysing-newyork-city-high-school-sat-scores/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://pavankumar.in/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+      
+        <link rel="stylesheet"  href="https://pavankumar.in/css/custom.css">
+      
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://pavankumar.in/">Pavan Kumar&#39;s Blog</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://pavankumar.in/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://pavankumar.in/images/dp2.jpg" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://pavankumar.in/#about">
+          <img class="sidebar-profile-picture" src="https://pavankumar.in/images/dp2.jpg" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Pavan Kumar</h4>
+        
+          <h5 class="sidebar-profile-bio">I am Data Science and Software enthusiast. I am specialized in C++ and Python.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pavankumar.in/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pavankumar.in/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pavankumar.in/categories/datascience">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">DataScience</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/kakawait" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://stackoverflow.com/users/6444623/pavan-kumar" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-stack-overflow"></i>
+      
+      <span class="sidebar-button-desc">Stack Overflow</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/pavankumar_8" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+  <div class="post-header-cover
+              text-center
+              "
+       style="background-image:url('https://res.cloudinary.com/pavan8k/image/upload/v1605462584/site_assets/posts/pexels-jeswin-thomas-3380743_umqsgr.jpg')"
+       data-behavior="5">
+    
+      <div class="post-header main-content-wrap text-center">
+  
+    <h1 class="post-title" itemprop="headline">
+      Analysing NewYork city high school SAT scores
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-07-12T00:00:00Z">
+        
+  July 12, 2020
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://pavankumar.in/categories/datascience">DataScience</a>
+    
+  
+
+  </div>
+
+</div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="5"
+        class="hasCover
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>In this post, using pandas I will try to analyse New York city&rsquo;s high school SAT scores, and will try to look at any possible correlation between scores and gender, race, financial background, geographical location of schools.</p>
+<h1 id="read-in-the-data">Read in the data</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pandas <span style="color:#f92672">as</span> pd
+<span style="color:#f92672">import</span> numpy
+<span style="color:#f92672">import</span> re
+
+data_files <span style="color:#f92672">=</span> [
+    <span style="color:#e6db74">&#34;ap_2010.csv&#34;</span>,
+    <span style="color:#e6db74">&#34;class_size.csv&#34;</span>,
+    <span style="color:#e6db74">&#34;demographics.csv&#34;</span>,
+    <span style="color:#e6db74">&#34;graduation.csv&#34;</span>,
+    <span style="color:#e6db74">&#34;hs_directory.csv&#34;</span>,
+    <span style="color:#e6db74">&#34;sat_results.csv&#34;</span>
+]
+
+data <span style="color:#f92672">=</span> {}
+
+<span style="color:#66d9ef">for</span> f <span style="color:#f92672">in</span> data_files:
+    d <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#34;schools/{0}&#34;</span><span style="color:#f92672">.</span>format(f))
+    data[f<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#34;.csv&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>)] <span style="color:#f92672">=</span> d
+</code></pre></div><h1 id="read-in-the-surveys">Read in the surveys</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">all_survey <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#34;schools/survey_all.txt&#34;</span>, delimiter<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">&#34;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;windows-1252&#39;</span>)
+d75_survey <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#34;schools/survey_d75.txt&#34;</span>, delimiter<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">&#34;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;windows-1252&#39;</span>)
+survey <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([all_survey, d75_survey], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+
+survey[<span style="color:#e6db74">&#34;DBN&#34;</span>] <span style="color:#f92672">=</span> survey[<span style="color:#e6db74">&#34;dbn&#34;</span>]
+
+survey_fields <span style="color:#f92672">=</span> [
+    <span style="color:#e6db74">&#34;DBN&#34;</span>, 
+    <span style="color:#e6db74">&#34;rr_s&#34;</span>, 
+    <span style="color:#e6db74">&#34;rr_t&#34;</span>, 
+    <span style="color:#e6db74">&#34;rr_p&#34;</span>, 
+    <span style="color:#e6db74">&#34;N_s&#34;</span>, 
+    <span style="color:#e6db74">&#34;N_t&#34;</span>, 
+    <span style="color:#e6db74">&#34;N_p&#34;</span>, 
+    <span style="color:#e6db74">&#34;saf_p_11&#34;</span>, 
+    <span style="color:#e6db74">&#34;com_p_11&#34;</span>, 
+    <span style="color:#e6db74">&#34;eng_p_11&#34;</span>, 
+    <span style="color:#e6db74">&#34;aca_p_11&#34;</span>, 
+    <span style="color:#e6db74">&#34;saf_t_11&#34;</span>, 
+    <span style="color:#e6db74">&#34;com_t_11&#34;</span>, 
+    <span style="color:#e6db74">&#34;eng_t_11&#34;</span>, 
+    <span style="color:#e6db74">&#34;aca_t_11&#34;</span>, 
+    <span style="color:#e6db74">&#34;saf_s_11&#34;</span>, 
+    <span style="color:#e6db74">&#34;com_s_11&#34;</span>, 
+    <span style="color:#e6db74">&#34;eng_s_11&#34;</span>, 
+    <span style="color:#e6db74">&#34;aca_s_11&#34;</span>, 
+    <span style="color:#e6db74">&#34;saf_tot_11&#34;</span>, 
+    <span style="color:#e6db74">&#34;com_tot_11&#34;</span>, 
+    <span style="color:#e6db74">&#34;eng_tot_11&#34;</span>, 
+    <span style="color:#e6db74">&#34;aca_tot_11&#34;</span>,
+]
+survey <span style="color:#f92672">=</span> survey<span style="color:#f92672">.</span>loc[:,survey_fields]
+data[<span style="color:#e6db74">&#34;survey&#34;</span>] <span style="color:#f92672">=</span> survey
+</code></pre></div><h1 id="add-dbn-columns">Add DBN columns</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data[<span style="color:#e6db74">&#34;hs_directory&#34;</span>][<span style="color:#e6db74">&#34;DBN&#34;</span>] <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#34;hs_directory&#34;</span>][<span style="color:#e6db74">&#34;dbn&#34;</span>]
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pad_csd</span>(num):
+    string_representation <span style="color:#f92672">=</span> str(num)
+    <span style="color:#66d9ef">if</span> len(string_representation) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>:
+        <span style="color:#66d9ef">return</span> string_representation
+    <span style="color:#66d9ef">else</span>:
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;0&#34;</span> <span style="color:#f92672">+</span> string_representation
+    
+data[<span style="color:#e6db74">&#34;class_size&#34;</span>][<span style="color:#e6db74">&#34;padded_csd&#34;</span>] <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#34;class_size&#34;</span>][<span style="color:#e6db74">&#34;CSD&#34;</span>]<span style="color:#f92672">.</span>apply(pad_csd)
+data[<span style="color:#e6db74">&#34;class_size&#34;</span>][<span style="color:#e6db74">&#34;DBN&#34;</span>] <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#34;class_size&#34;</span>][<span style="color:#e6db74">&#34;padded_csd&#34;</span>] <span style="color:#f92672">+</span> data[<span style="color:#e6db74">&#34;class_size&#34;</span>][<span style="color:#e6db74">&#34;SCHOOL CODE&#34;</span>]
+</code></pre></div><h1 id="convert-columns-to-numeric">Convert columns to numeric</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">cols <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;SAT Math Avg. Score&#39;</span>, <span style="color:#e6db74">&#39;SAT Critical Reading Avg. Score&#39;</span>, <span style="color:#e6db74">&#39;SAT Writing Avg. Score&#39;</span>]
+<span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> cols:
+    data[<span style="color:#e6db74">&#34;sat_results&#34;</span>][c] <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>to_numeric(data[<span style="color:#e6db74">&#34;sat_results&#34;</span>][c], errors<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;coerce&#34;</span>)
+
+data[<span style="color:#e6db74">&#39;sat_results&#39;</span>][<span style="color:#e6db74">&#39;sat_score&#39;</span>] <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;sat_results&#39;</span>][cols[<span style="color:#ae81ff">0</span>]] <span style="color:#f92672">+</span> data[<span style="color:#e6db74">&#39;sat_results&#39;</span>][cols[<span style="color:#ae81ff">1</span>]] <span style="color:#f92672">+</span> data[<span style="color:#e6db74">&#39;sat_results&#39;</span>][cols[<span style="color:#ae81ff">2</span>]]
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">find_lat</span>(loc):
+    coords <span style="color:#f92672">=</span> re<span style="color:#f92672">.</span>findall(<span style="color:#e6db74">&#34;\(.+, .+\)&#34;</span>, loc)
+    lat <span style="color:#f92672">=</span> coords[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;,&#34;</span>)[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#34;(&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>)
+    <span style="color:#66d9ef">return</span> lat
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">find_lon</span>(loc):
+    coords <span style="color:#f92672">=</span> re<span style="color:#f92672">.</span>findall(<span style="color:#e6db74">&#34;\(.+, .+\)&#34;</span>, loc)
+    lon <span style="color:#f92672">=</span> coords[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;,&#34;</span>)[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#34;)&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>)<span style="color:#f92672">.</span>strip()
+    <span style="color:#66d9ef">return</span> lon
+
+data[<span style="color:#e6db74">&#34;hs_directory&#34;</span>][<span style="color:#e6db74">&#34;lat&#34;</span>] <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#34;hs_directory&#34;</span>][<span style="color:#e6db74">&#34;Location 1&#34;</span>]<span style="color:#f92672">.</span>apply(find_lat)
+data[<span style="color:#e6db74">&#34;hs_directory&#34;</span>][<span style="color:#e6db74">&#34;lon&#34;</span>] <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#34;hs_directory&#34;</span>][<span style="color:#e6db74">&#34;Location 1&#34;</span>]<span style="color:#f92672">.</span>apply(find_lon)
+
+data[<span style="color:#e6db74">&#34;hs_directory&#34;</span>][<span style="color:#e6db74">&#34;lat&#34;</span>] <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>to_numeric(data[<span style="color:#e6db74">&#34;hs_directory&#34;</span>][<span style="color:#e6db74">&#34;lat&#34;</span>], errors<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;coerce&#34;</span>)
+data[<span style="color:#e6db74">&#34;hs_directory&#34;</span>][<span style="color:#e6db74">&#34;lon&#34;</span>] <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>to_numeric(data[<span style="color:#e6db74">&#34;hs_directory&#34;</span>][<span style="color:#e6db74">&#34;lon&#34;</span>], errors<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;coerce&#34;</span>)
+</code></pre></div><h1 id="condense-datasets">Condense datasets</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">class_size <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#34;class_size&#34;</span>]
+class_size <span style="color:#f92672">=</span> class_size[class_size[<span style="color:#e6db74">&#34;GRADE &#34;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;09-12&#34;</span>]
+class_size <span style="color:#f92672">=</span> class_size[class_size[<span style="color:#e6db74">&#34;PROGRAM TYPE&#34;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;GEN ED&#34;</span>]
+
+class_size <span style="color:#f92672">=</span> class_size<span style="color:#f92672">.</span>groupby(<span style="color:#e6db74">&#34;DBN&#34;</span>)<span style="color:#f92672">.</span>agg(numpy<span style="color:#f92672">.</span>mean)
+class_size<span style="color:#f92672">.</span>reset_index(inplace<span style="color:#f92672">=</span>True)
+data[<span style="color:#e6db74">&#34;class_size&#34;</span>] <span style="color:#f92672">=</span> class_size
+
+data[<span style="color:#e6db74">&#34;demographics&#34;</span>] <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#34;demographics&#34;</span>][data[<span style="color:#e6db74">&#34;demographics&#34;</span>][<span style="color:#e6db74">&#34;schoolyear&#34;</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">20112012</span>]
+
+data[<span style="color:#e6db74">&#34;graduation&#34;</span>] <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#34;graduation&#34;</span>][data[<span style="color:#e6db74">&#34;graduation&#34;</span>][<span style="color:#e6db74">&#34;Cohort&#34;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;2006&#34;</span>]
+data[<span style="color:#e6db74">&#34;graduation&#34;</span>] <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#34;graduation&#34;</span>][data[<span style="color:#e6db74">&#34;graduation&#34;</span>][<span style="color:#e6db74">&#34;Demographic&#34;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Total Cohort&#34;</span>]
+</code></pre></div><h1 id="convert-ap-scores-to-numeric">Convert AP scores to numeric</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">cols <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;AP Test Takers &#39;</span>, <span style="color:#e6db74">&#39;Total Exams Taken&#39;</span>, <span style="color:#e6db74">&#39;Number of Exams with scores 3 4 or 5&#39;</span>]
+
+<span style="color:#66d9ef">for</span> col <span style="color:#f92672">in</span> cols:
+    data[<span style="color:#e6db74">&#34;ap_2010&#34;</span>][col] <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>to_numeric(data[<span style="color:#e6db74">&#34;ap_2010&#34;</span>][col], errors<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;coerce&#34;</span>)
+</code></pre></div><h1 id="combine-the-datasets">Combine the datasets</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">combined <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#34;sat_results&#34;</span>]
+
+combined <span style="color:#f92672">=</span> combined<span style="color:#f92672">.</span>merge(data[<span style="color:#e6db74">&#34;ap_2010&#34;</span>], on<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;DBN&#34;</span>, how<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;left&#34;</span>)
+combined <span style="color:#f92672">=</span> combined<span style="color:#f92672">.</span>merge(data[<span style="color:#e6db74">&#34;graduation&#34;</span>], on<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;DBN&#34;</span>, how<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;left&#34;</span>)
+
+to_merge <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;class_size&#34;</span>, <span style="color:#e6db74">&#34;demographics&#34;</span>, <span style="color:#e6db74">&#34;survey&#34;</span>, <span style="color:#e6db74">&#34;hs_directory&#34;</span>]
+
+<span style="color:#66d9ef">for</span> m <span style="color:#f92672">in</span> to_merge:
+    combined <span style="color:#f92672">=</span> combined<span style="color:#f92672">.</span>merge(data[m], on<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;DBN&#34;</span>, how<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;inner&#34;</span>)
+
+combined <span style="color:#f92672">=</span> combined<span style="color:#f92672">.</span>fillna(combined<span style="color:#f92672">.</span>mean())
+combined <span style="color:#f92672">=</span> combined<span style="color:#f92672">.</span>fillna(<span style="color:#ae81ff">0</span>)
+</code></pre></div><h1 id="add-a-school-district-column-for-mapping">Add a school district column for mapping</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_first_two_chars</span>(dbn):
+    <span style="color:#66d9ef">return</span> dbn[<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">2</span>]
+
+combined[<span style="color:#e6db74">&#34;school_dist&#34;</span>] <span style="color:#f92672">=</span> combined[<span style="color:#e6db74">&#34;DBN&#34;</span>]<span style="color:#f92672">.</span>apply(get_first_two_chars)
+</code></pre></div><h1 id="find-correlations">Find correlations</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">correlations <span style="color:#f92672">=</span> combined<span style="color:#f92672">.</span>corr()
+correlations <span style="color:#f92672">=</span> correlations[<span style="color:#e6db74">&#34;sat_score&#34;</span>]
+<span style="color:#66d9ef">print</span>(correlations)
+</code></pre></div><pre><code>SAT Critical Reading Avg. Score         0.986820
+SAT Math Avg. Score                     0.972643
+SAT Writing Avg. Score                  0.987771
+sat_score                               1.000000
+AP Test Takers                          0.523140
+Total Exams Taken                       0.514333
+Number of Exams with scores 3 4 or 5    0.463245
+Total Cohort                            0.325144
+CSD                                     0.042948
+NUMBER OF STUDENTS / SEATS FILLED       0.394626
+NUMBER OF SECTIONS                      0.362673
+AVERAGE CLASS SIZE                      0.381014
+SIZE OF SMALLEST CLASS                  0.249949
+SIZE OF LARGEST CLASS                   0.314434
+SCHOOLWIDE PUPIL-TEACHER RATIO               NaN
+schoolyear                                   NaN
+fl_percent                                   NaN
+frl_percent                            -0.722225
+total_enrollment                        0.367857
+ell_num                                -0.153778
+ell_percent                            -0.398750
+sped_num                                0.034933
+sped_percent                           -0.448170
+asian_num                               0.475445
+asian_per                               0.570730
+black_num                               0.027979
+black_per                              -0.284139
+hispanic_num                            0.025744
+hispanic_per                           -0.396985
+white_num                               0.449559
+                                          ...   
+rr_p                                    0.047925
+N_s                                     0.423463
+N_t                                     0.291463
+N_p                                     0.421530
+saf_p_11                                0.122913
+com_p_11                               -0.115073
+eng_p_11                                0.020254
+aca_p_11                                0.035155
+saf_t_11                                0.313810
+com_t_11                                0.082419
+eng_t_11                                0.036906
+aca_t_11                                0.132348
+saf_s_11                                0.337639
+com_s_11                                0.187370
+eng_s_11                                0.213822
+aca_s_11                                0.339435
+saf_tot_11                              0.318753
+com_tot_11                              0.077310
+eng_tot_11                              0.100102
+aca_tot_11                              0.190966
+grade_span_max                               NaN
+expgrade_span_max                            NaN
+zip                                    -0.063977
+total_students                          0.407827
+number_programs                         0.117012
+priority08                                   NaN
+priority09                                   NaN
+priority10                                   NaN
+lat                                    -0.121029
+lon                                    -0.132222
+Name: sat_score, Length: 67, dtype: float64
+</code></pre>
+<h1 id="plotting-survey-correlations">Plotting survey correlations</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Remove DBN since it&#39;s a unique identifier, not a useful numerical value for correlation.</span>
+survey_fields<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#34;DBN&#34;</span>)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">%</span>matplotlib inline
+<span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt  
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#print(combined[&#39;sat_score&#39;])</span>
+<span style="color:#75715e">#print(survey_fields.dtype())</span>
+interested_fields <span style="color:#f92672">=</span> survey_fields <span style="color:#f92672">+</span> [<span style="color:#e6db74">&#39;sat_score&#39;</span>]
+<span style="color:#75715e">#interested_fields.append(&#39;sat_score&#39;)</span>
+<span style="color:#66d9ef">print</span>(interested_fields)
+</code></pre></div><pre><code>['rr_s', 'rr_t', 'rr_p', 'N_s', 'N_t', 'N_p', 'saf_p_11', 'com_p_11', 'eng_p_11', 'aca_p_11', 'saf_t_11', 'com_t_11', 'eng_t_11', 'aca_t_11', 'saf_s_11', 'com_s_11', 'eng_s_11', 'aca_s_11', 'saf_tot_11', 'com_tot_11', 'eng_tot_11', 'aca_tot_11', 'sat_score']
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">corr <span style="color:#f92672">=</span> combined[interested_fields]<span style="color:#f92672">.</span>corr()
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">correlation_list <span style="color:#f92672">=</span> corr[<span style="color:#e6db74">&#39;sat_score&#39;</span>][<span style="color:#ae81ff">0</span>:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#75715e"># removing last element of sat_score</span>
+fig1 <span style="color:#f92672">=</span> correlation_list<span style="color:#f92672">.</span>plot<span style="color:#f92672">.</span>bar()
+fig1<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;Corelation of survey fields with sat_score&#39;</span>)
+</code></pre></div><pre><code>&lt;matplotlib.text.Text at 0x7ff18375f470&gt;
+</code></pre>
+<p><img src="https://res.cloudinary.com/pavan8k/image/upload/v1605462873/site_assets/posts/NYC_SAT/7__Analysing_NYC_High_school_SAT_scores_23_1_ue5ger.png" alt="png"></p>
+<p>These are the observations</p>
+<ul>
+<li>There is some correlation between <code>N_s</code>, <code>N_t</code>, <code>N_p</code> and <code>sat_score</code>.</li>
+<li>Also <code>saf_t_11</code>, <code>saf_s_11</code>, <code>saf_tot_11</code> are somewhat correlated to high <code>sat_score</code>. These correspond to how safe the teachers, students and both percieve the school to be.</li>
+</ul>
+<h2 id="exploring-safety-and-sat-scores">Exploring safety and SAT scores</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">combined<span style="color:#f92672">.</span>plot<span style="color:#f92672">.</span>scatter(<span style="color:#e6db74">&#39;saf_s_11&#39;</span>,<span style="color:#e6db74">&#39;sat_score&#39;</span>)
+</code></pre></div><pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7ff183751b70&gt;
+</code></pre>
+<p><img src="https://res.cloudinary.com/pavan8k/image/upload/v1605462873/site_assets/posts/NYC_SAT/7__Analysing_NYC_High_school_SAT_scores_26_1_hsbubp.png" alt="png"></p>
+<p>There is no clear correlation between the two variables, but one can notice that for some values, higher <code>saf_s_11</code> corresponds to a higher SAT score. Possibly because more safe the student feels, he could concentrate more on the studies and give his best.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">combined<span style="color:#f92672">.</span>head()
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<h4 id="analysis-of-sat-scores-by-districts">Analysis of SAT scores by districts</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">combined[<span style="color:#e6db74">&#39;school_dist&#39;</span>]<span style="color:#f92672">.</span>value_counts()
+</code></pre></div><pre><code>02    48
+10    22
+09    20
+11    15
+14    14
+17    14
+07    13
+24    13
+13    13
+03    12
+19    12
+12    12
+28    11
+18    11
+08    11
+21    11
+31    10
+06    10
+27    10
+15     9
+30     9
+25     8
+29     8
+05     7
+04     7
+32     6
+01     6
+26     5
+20     5
+22     4
+16     4
+23     3
+Name: school_dist, dtype: int64
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#computing avg safety score of each district</span>
+avg_saf_dt <span style="color:#f92672">=</span> combined<span style="color:#f92672">.</span>groupby(by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;school_dist&#39;</span>)<span style="color:#f92672">.</span>mean()[[<span style="color:#e6db74">&#39;sat_score&#39;</span>,<span style="color:#e6db74">&#39;saf_s_11&#39;</span>,<span style="color:#e6db74">&#39;lat&#39;</span>, <span style="color:#e6db74">&#39;lon&#39;</span>]]
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">avg_saf_dt<span style="color:#f92672">.</span>reset_index(inplace <span style="color:#f92672">=</span> True)
+avg_saf_dt
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">avg_saf_dt<span style="color:#f92672">.</span>plot<span style="color:#f92672">.</span>scatter(<span style="color:#e6db74">&#39;saf_s_11&#39;</span>, <span style="color:#e6db74">&#39;sat_score&#39;</span>)
+</code></pre></div><pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7ff183735128&gt;
+</code></pre>
+<p><img src="https://res.cloudinary.com/pavan8k/image/upload/v1605462871/site_assets/posts/NYC_SAT/7__Analysing_NYC_High_school_SAT_scores_33_1_uil29q.png" alt="png"></p>
+<p>Here the trend is more clear. <strong>Students are generally scoring more in SAT in the places where they feel they are safe</strong>.</p>
+<p>** However there are exceptions too.** Let us look at the geography.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">latitudes <span style="color:#f92672">=</span> avg_saf_dt[<span style="color:#e6db74">&#39;lat&#39;</span>]<span style="color:#f92672">.</span>tolist()
+longitudes <span style="color:#f92672">=</span> avg_saf_dt[<span style="color:#e6db74">&#39;lon&#39;</span>]<span style="color:#f92672">.</span>tolist()
+
+<span style="color:#f92672">from</span> mpl_toolkits.basemap <span style="color:#f92672">import</span> Basemap
+<span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+<span style="color:#75715e"># setup Lambert Conformal basemap.</span>
+m <span style="color:#f92672">=</span> Basemap(projection<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;merc&#39;</span>, llcrnrlat<span style="color:#f92672">=</span><span style="color:#ae81ff">40.496044</span>, urcrnrlat<span style="color:#f92672">=</span><span style="color:#ae81ff">40.915256</span>, llcrnrlon<span style="color:#f92672">=-</span><span style="color:#ae81ff">74.255735</span>, urcrnrlon<span style="color:#f92672">=-</span><span style="color:#ae81ff">73.700272</span>, resolution<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;i&#39;</span>)
+
+
+m<span style="color:#f92672">.</span>scatter(longitudes, latitudes, latlon <span style="color:#f92672">=</span> True, s<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>, zorder <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, c<span style="color:#f92672">=</span>avg_saf_dt[<span style="color:#e6db74">&#34;saf_s_11&#34;</span>], cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;summer&#34;</span>)
+
+m<span style="color:#f92672">.</span>drawmapboundary(fill_color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;#85A6D9&#39;</span>)
+m<span style="color:#f92672">.</span>drawcoastlines(color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;#6D5F47&#39;</span>, linewidth<span style="color:#f92672">=.</span><span style="color:#ae81ff">4</span>)
+m<span style="color:#f92672">.</span>drawrivers(color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;#6D5F47&#39;</span>, linewidth<span style="color:#f92672">=.</span><span style="color:#ae81ff">4</span>)
+plt<span style="color:#f92672">.</span>show()
+</code></pre></div><p><img src="https://res.cloudinary.com/pavan8k/image/upload/v1605462873/site_assets/posts/NYC_SAT/7__Analysing_NYC_High_school_SAT_scores_35_0_syayzb.png" alt="png"></p>
+<p>It looks like Upper Manhattan and parts of Queens and the Bronx tend to have higher safety scores, whereas Brooklyn has low safety scores.</p>
+<h1 id="exploring-race-and-sat-scores">Exploring Race and SAT scores</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">race_fields <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;white_per&#39;</span>, <span style="color:#e6db74">&#39;asian_per&#39;</span>, <span style="color:#e6db74">&#39;black_per&#39;</span>, <span style="color:#e6db74">&#39;hispanic_per&#39;</span>, <span style="color:#e6db74">&#39;sat_score&#39;</span>]
+race_corr <span style="color:#f92672">=</span> combined[race_fields]<span style="color:#f92672">.</span>corr()[<span style="color:#e6db74">&#39;sat_score&#39;</span>][<span style="color:#ae81ff">0</span>:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#75715e"># removing last element of sat_score</span>
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">race_corr
+</code></pre></div><pre><code>white_per       0.620718
+asian_per       0.570730
+black_per      -0.284139
+hispanic_per   -0.396985
+Name: sat_score, dtype: float64
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">race_corr<span style="color:#f92672">.</span>plot<span style="color:#f92672">.</span>bar()
+</code></pre></div><pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7ff183775588&gt;
+</code></pre>
+<p><img src="https://res.cloudinary.com/pavan8k/image/upload/v1605462872/site_assets/posts/NYC_SAT/7__Analysing_NYC_High_school_SAT_scores_40_1_dcckfb.png" alt="png"></p>
+<h4 id="observations">Observations</h4>
+<ul>
+<li>There is a good positive correlation between the percentage of <code>white</code> and <code>asian</code> students and SAT scores</li>
+<li>Also, there is negative correlation between the percentage of <code>black</code> and <code>hispanic</code> students and SAT scores</li>
+</ul>
+<p>These may also be related to demographic layout of certain districts. Like say, if a schools of a particular area are from a poor neighbourhood, where certain race population could be concentrated.</p>
+<p>To explore further, let us analyse <code>percentage of hispanic population</code> vs <code>SAT score</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">combined[race_fields]<span style="color:#f92672">.</span>plot<span style="color:#f92672">.</span>scatter(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;hispanic_per&#39;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;sat_score&#39;</span>)
+</code></pre></div><pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7ff182eef240&gt;
+</code></pre>
+<p><img src="https://res.cloudinary.com/pavan8k/image/upload/v1605462872/site_assets/posts/NYC_SAT/7__Analysing_NYC_High_school_SAT_scores_42_1_rjjyhu.png" alt="png"></p>
+<p>It does look like there is a negative correlation of <code>SAT score</code> with <code>Hispanic percentages</code> but it should also be noted that there are many schools in which the <code>SAT scores</code> were less but had very few hispanic students. Maybe it should be looked from geographic and economic situation perspective to get better insights.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># schools with ver high hispanic percentage</span>
+high_hispanic_per <span style="color:#f92672">=</span> combined[combined[<span style="color:#e6db74">&#39;hispanic_per&#39;</span>] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">95</span>]
+high_hispanic_per[<span style="color:#e6db74">&#39;school_name&#39;</span>]
+</code></pre></div><pre><code>44                         Manhattan Bridges High School
+82      Washington Heights Expeditionary Learning School
+89     Gregorio Luperon High School for Science and M...
+125                  Academy for Language and Technology
+141                International School for Liberal Arts
+176     Pan American International High School at Monroe
+253                            Multicultural High School
+286               Pan American International High School
+Name: school_name, dtype: object
+</code></pre>
+<p>The schools listed above appear to primarily be geared towards recent immigrants to the US. These schools have a lot of students who are learning English, which would explain the lower SAT scores.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># schools with a hispanic_per less than 10% and an average SAT score greater than 1800</span>
+combined[(combined[<span style="color:#e6db74">&#39;hispanic_per&#39;</span>] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>) <span style="color:#f92672">&amp;</span> (combined[<span style="color:#e6db74">&#39;sat_score&#39;</span>]<span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1800</span>)][<span style="color:#e6db74">&#39;school_name&#39;</span>]
+</code></pre></div><pre><code>37                                Stuyvesant High School
+151                         Bronx High School of Science
+187                       Brooklyn Technical High School
+327    Queens High School for the Sciences at York Co...
+356                  Staten Island Technical High School
+Name: school_name, dtype: object
+</code></pre>
+<p>Many of the schools above appear to be specialized science and technology schools that receive extra funding, and only admit students who pass an entrance exam. This doesn&rsquo;t explain the low hispanic_per, but it does explain why their students tend to do better on the SAT &ndash; they are students from all over New York City who did well on a standardized test.</p>
+<h1 id="gender-differences-and-sat-scores">Gender differences and SAT scores</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">gender_corr <span style="color:#f92672">=</span> combined[[<span style="color:#e6db74">&#39;male_per&#39;</span>,<span style="color:#e6db74">&#39;female_per&#39;</span>,<span style="color:#e6db74">&#39;sat_score&#39;</span>]]<span style="color:#f92672">.</span>corr()[<span style="color:#e6db74">&#39;sat_score&#39;</span>][<span style="color:#ae81ff">0</span>:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+<span style="color:#66d9ef">print</span>(gender_corr)
+gender_corr<span style="color:#f92672">.</span>plot<span style="color:#f92672">.</span>bar()
+</code></pre></div><pre><code>male_per     -0.112062
+female_per    0.112108
+Name: sat_score, dtype: float64
+
+
+
+
+
+&lt;matplotlib.axes._subplots.AxesSubplot at 0x7ff181653c50&gt;
+</code></pre>
+<p><img src="https://res.cloudinary.com/pavan8k/image/upload/v1605462872/site_assets/posts/NYC_SAT/7__Analysing_NYC_High_school_SAT_scores_49_2_kbwn1v.png" alt="png"></p>
+<p>In the plot above, we can see that a high percentage of females at a school positively correlates with SAT score, whereas a high percentage of males at a school negatively correlates with SAT score. Neither correlation is strong and infact it is very less.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">combined<span style="color:#f92672">.</span>plot<span style="color:#f92672">.</span>scatter(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;female_per&#39;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;sat_score&#39;</span>)
+</code></pre></div><pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7ff180b584a8&gt;
+</code></pre>
+<p><img src="https://res.cloudinary.com/pavan8k/image/upload/v1605462872/site_assets/posts/NYC_SAT/7__Analysing_NYC_High_school_SAT_scores_51_1_sdwox4.png" alt="png"></p>
+<p>One can notice a cluster of high female percentages (60 to 80) and high SAT scores</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># schools with a hispanic_per less than 10% and an average SAT score greater than 1800</span>
+combined[(combined[<span style="color:#e6db74">&#39;female_per&#39;</span>] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">60</span>) <span style="color:#f92672">&amp;</span> (combined[<span style="color:#e6db74">&#39;sat_score&#39;</span>]<span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1700</span>)][<span style="color:#e6db74">&#39;school_name&#39;</span>]
+</code></pre></div><pre><code>5                         Bard High School Early College
+26                         Eleanor Roosevelt High School
+60                                    Beacon High School
+61     Fiorello H. LaGuardia High School of Music &amp; A...
+302                          Townsend Harris High School
+Name: school_name, dtype: object
+</code></pre>
+<p>These schools looks like liberal arts schools with admission tests etc. Possibly suggesting why female percentage is more and high SAT scores.</p>
+<h1 id="does-ap-exam-takers-score-higher-in-sat-exam-">Does AP exam takers score higher in SAT exam ?</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">combined[<span style="color:#e6db74">&#39;ap_per&#39;</span>] <span style="color:#f92672">=</span> combined[<span style="color:#e6db74">&#39;AP Test Takers &#39;</span>]<span style="color:#f92672">/</span>combined[<span style="color:#e6db74">&#39;total_enrollment&#39;</span>]
+<span style="color:#66d9ef">print</span>(combined[[<span style="color:#e6db74">&#39;ap_per&#39;</span>,<span style="color:#e6db74">&#39;sat_score&#39;</span>]]<span style="color:#f92672">.</span>corr()[<span style="color:#e6db74">&#39;sat_score&#39;</span>][<span style="color:#ae81ff">0</span>:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>])
+combined<span style="color:#f92672">.</span>plot<span style="color:#f92672">.</span>scatter(<span style="color:#e6db74">&#39;ap_per&#39;</span>,<span style="color:#e6db74">&#39;sat_score&#39;</span>)
+</code></pre></div><pre><code>ap_per    0.057171
+Name: sat_score, dtype: float64
+
+
+
+
+
+&lt;matplotlib.axes._subplots.AxesSubplot at 0x7ff180aa73c8&gt;
+</code></pre>
+<p><img src="https://res.cloudinary.com/pavan8k/image/upload/v1605462872/site_assets/posts/NYC_SAT/7__Analysing_NYC_High_school_SAT_scores_56_2_msoxap.png" alt="png"></p>
+<p>There is no correlation between AP exam and SAT exam takers. Thus it looks like taking AP exam maynot effect the student&rsquo;s performance in the SAT exam</p>
+<h1 id="bonus-performance-of-blacks-and-hispanics-compared-to-other-races-in-sat-exam">Bonus: Performance of Blacks and Hispanics compared to other races in SAT exam</h1>
+<p>Earlier we have seen that White percentage, Asian percentage were positively correlated with SAT scores where as Blacks and Hispanics were negatively coorelated</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">combined[<span style="color:#e6db74">&#39;white_asian_per&#39;</span>] <span style="color:#f92672">=</span> combined[<span style="color:#e6db74">&#39;white_per&#39;</span>] <span style="color:#f92672">+</span> combined[<span style="color:#e6db74">&#39;asian_per&#39;</span>]
+combined[<span style="color:#e6db74">&#39;black_hispanic_per&#39;</span>] <span style="color:#f92672">=</span> combined[<span style="color:#e6db74">&#39;black_per&#39;</span>] <span style="color:#f92672">+</span> combined[<span style="color:#e6db74">&#39;hispanic_per&#39;</span>]
+race_fields <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;white_asian_per&#39;</span>, <span style="color:#e6db74">&#39;black_hispanic_per&#39;</span>, <span style="color:#e6db74">&#39;sat_score&#39;</span> ]
+race_corr <span style="color:#f92672">=</span> combined[race_fields]<span style="color:#f92672">.</span>corr()[<span style="color:#e6db74">&#39;sat_score&#39;</span>][<span style="color:#ae81ff">0</span>:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+<span style="color:#66d9ef">print</span>(race_corr)
+combined[race_fields]<span style="color:#f92672">.</span>plot<span style="color:#f92672">.</span>scatter(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;black_hispanic_per&#39;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;sat_score&#39;</span>)
+</code></pre></div><pre><code>white_asian_per       0.724385
+black_hispanic_per   -0.728650
+Name: sat_score, dtype: float64
+
+
+
+
+
+&lt;matplotlib.axes._subplots.AxesSubplot at 0x7ff180a880b8&gt;
+</code></pre>
+<p><img src="https://res.cloudinary.com/pavan8k/image/upload/v1605462873/site_assets/posts/NYC_SAT/7__Analysing_NYC_High_school_SAT_scores_59_2_ejbdfg.png" alt="png"></p>
+<p>There is a strong negative correlation with percentages of black and hispanics with SAT scores. However it should be looked what financial background blacks and hispanics maybe from, where they would be residing etc, because all these factors may play a big role in SAT exam scores</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pavankumar.in/2020/09/datascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization/" data-tooltip="DataScience: From exit surveys, understanding why employees are really leaving an organization">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pavankumar.in/2020/06/what-kind-of-posts-attract-higher-user-engagement/" data-tooltip="What kind of posts attract higher user engagement?">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pavankumar.in/2020/07/analysing-newyork-city-high-school-sat-scores/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pavankumar.in/2020/07/analysing-newyork-city-high-school-sat-scores/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pavankumar.in/2020/07/analysing-newyork-city-high-school-sat-scores/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2020 Pavan Kumar. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pavankumar.in/2020/09/datascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization/" data-tooltip="DataScience: From exit surveys, understanding why employees are really leaving an organization">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pavankumar.in/2020/06/what-kind-of-posts-attract-higher-user-engagement/" data-tooltip="What kind of posts attract higher user engagement?">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pavankumar.in/2020/07/analysing-newyork-city-high-school-sat-scores/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pavankumar.in/2020/07/analysing-newyork-city-high-school-sat-scores/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pavankumar.in/2020/07/analysing-newyork-city-high-school-sat-scores/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpavankumar.in%2F2020%2F07%2Fanalysing-newyork-city-high-school-sat-scores%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpavankumar.in%2F2020%2F07%2Fanalysing-newyork-city-high-school-sat-scores%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpavankumar.in%2F2020%2F07%2Fanalysing-newyork-city-high-school-sat-scores%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://pavankumar.in/images/dp2.jpg" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Pavan Kumar</h4>
+    
+      <div id="about-card-bio">I am Data Science and Software enthusiast. I am specialized in C++ and Python. For a detailed CV, click <a href = "\cv">here.</a></div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Software Engineer
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        India
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    <div id="cover" style="background-image:url('https://res.cloudinary.com/pavan8k/image/upload/v1605034816/site_assets/bg1_skjhyf.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://pavankumar.in/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/pavankumar.in\/2020\/07\/analysing-newyork-city-high-school-sat-scores\/';
+          
+            this.page.identifier = '\/2020\/07\/analysing-newyork-city-high-school-sat-scores\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'https-pavankumar-in';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

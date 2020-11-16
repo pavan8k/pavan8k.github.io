@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.78.1 with theme Tranquilpeak 0.4.8-BETA">
+<meta name="author" content="Pavan Kumar">
+<meta name="keywords" content="Appstore, Playstore, profitable apps">
+<meta name="description" content="In this post, using a real case dataset of the exit surveys, let&rsquo;s find out why the employees are leaving.">
+
+
+<meta property="og:description" content="In this post, using a real case dataset of the exit surveys, let&rsquo;s find out why the employees are leaving.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DataScience: From exit surveys, understanding why employees are really leaving an organization">
+<meta name="twitter:title" content="DataScience: From exit surveys, understanding why employees are really leaving an organization">
+<meta property="og:url" content="https://pavankumar.in/2020/09/datascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization/">
+<meta property="twitter:url" content="https://pavankumar.in/2020/09/datascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization/">
+<meta property="og:site_name" content="Pavan Kumar&#39;s Blog">
+<meta property="og:description" content="In this post, using a real case dataset of the exit surveys, let&rsquo;s find out why the employees are leaving.">
+<meta name="twitter:description" content="In this post, using a real case dataset of the exit surveys, let&rsquo;s find out why the employees are leaving.">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2020-09-02T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2020-09-02T00:00:00">
+  
+  
+  
+    
+      <meta property="article:section" content="DataScience">
+    
+  
+  
+
+
+<meta name="twitter:card" content="summary">
+
+  <meta name="twitter:site" content="@pavankumar_8">
+
+
+  <meta name="twitter:creator" content="@pavankumar_8">
+
+
+
+
+
+
+  <meta property="og:image" content="https://res.cloudinary.com/pavan8k/image/upload/v1605461892/site_assets/posts/pexels-andrea-piacquadio-3791134_jnqy07.jpg">
+  <meta property="twitter:image" content="https://res.cloudinary.com/pavan8k/image/upload/v1605461892/site_assets/posts/pexels-andrea-piacquadio-3791134_jnqy07.jpg">
+
+
+  <meta property="og:image" content="https://res.cloudinary.com/pavan8k/image/upload/v1605461892/site_assets/posts/pexels-andrea-piacquadio-3791134_jnqy07.jpg">
+  <meta property="twitter:image" content="https://res.cloudinary.com/pavan8k/image/upload/v1605461892/site_assets/posts/pexels-andrea-piacquadio-3791134_jnqy07.jpg">
+
+
+
+
+  <meta property="og:image" content="https://pavankumar.in/images/dp2.jpg">
+  <meta property="twitter:image" content="https://pavankumar.in/images/dp2.jpg">
+
+
+    <title>DataScience: From exit surveys, understanding why employees are really leaving an organization</title>
+
+    <link rel="icon" href="https://res.cloudinary.com/pavan8k/image/upload/v1605075896/site_assets/favicon-32x32_zvu8uj.png">
+    
+
+    
+
+    <link rel="canonical" href="https://pavankumar.in/2020/09/datascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://pavankumar.in/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+      
+        <link rel="stylesheet"  href="https://pavankumar.in/css/custom.css">
+      
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://pavankumar.in/">Pavan Kumar&#39;s Blog</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://pavankumar.in/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://pavankumar.in/images/dp2.jpg" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://pavankumar.in/#about">
+          <img class="sidebar-profile-picture" src="https://pavankumar.in/images/dp2.jpg" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Pavan Kumar</h4>
+        
+          <h5 class="sidebar-profile-bio">I am Data Science and Software enthusiast. I am specialized in C++ and Python.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pavankumar.in/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pavankumar.in/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pavankumar.in/categories/datascience">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">DataScience</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/kakawait" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://stackoverflow.com/users/6444623/pavan-kumar" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-stack-overflow"></i>
+      
+      <span class="sidebar-button-desc">Stack Overflow</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/pavankumar_8" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+  <div class="post-header-cover
+              text-center
+              "
+       style="background-image:url('https://res.cloudinary.com/pavan8k/image/upload/v1605461892/site_assets/posts/pexels-andrea-piacquadio-3791134_jnqy07.jpg')"
+       data-behavior="5">
+    
+      <div class="post-header main-content-wrap text-center">
+  
+    <h1 class="post-title" itemprop="headline">
+      DataScience: From exit surveys, understanding why employees are really leaving an organization
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-09-02T00:00:00Z">
+        
+  September 2, 2020
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://pavankumar.in/categories/datascience">DataScience</a>
+    
+  
+
+  </div>
+
+</div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="5"
+        class="hasCover
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>In this post, using a real case dataset of the exit surveys, let&rsquo;s find out why the employees are leaving.</p>
+<h2 id="1-introduction">1. Introduction</h2>
+<p>In this  project, we&rsquo;ll work with exit surveys from employees of the <a href="https://en.wikipedia.org/wiki/Department_of_Education_and_Training_(Queensland)">Department of Education, Training and Employment</a> (DETE) and the Technical and Further Education (TAFE) institute in Queensland, Australia. You can find the TAFE exit survey <a href="https://data.gov.au/dataset/ds-qld-89970a3b-182b-41ea-aea2-6f9f17b5907e/details?q=exit%20survey">here</a> and the survey for the DETE <a href="https://data.gov.au/dataset/ds-qld-fe96ff30-d157-4a81-851d-215f2a0fe26d/details?q=exit%20survey">here</a>. We&rsquo;ve made some slight modifications to these datasets to make them easier to work with, including changing the encoding to UTF-8 (the original ones are encoded using cp1252.)</p>
+<p>In this project, we&rsquo;ll play the role of data analyst and pretend our stakeholders want to know the following:</p>
+<ul>
+<li>Are employees who only worked for the institutes for a short period of time resigning due to some kind of dissatisfaction? What about employees who have been there longer?</li>
+<li>Are younger employees resigning due to some kind of dissatisfaction? What about older employees?</li>
+</ul>
+<p>We have to combine the results for both surveys to answer these questions. However, although both used the same survey template, one of them customized some of the answers. In the  steps, we&rsquo;ll aim to do most of the data cleaning and get started analyzing these questions.</p>
+<p>Below is a preview of a couple columns we&rsquo;ll work with from the dete_survey.csv:</p>
+<ul>
+<li><code>ID</code>: An id used to identify the participant of the survey</li>
+<li><code>SeparationType</code>: The reason why the person&rsquo;s employment ended</li>
+<li><code>Cease Date</code>: The year or month the person&rsquo;s employment ended</li>
+<li><code>DETE Start Date</code>: The year the person began employment with the DETE</li>
+</ul>
+<p>Below is a preview of a couple columns we&rsquo;ll work with from the tafe_survey.csv:</p>
+<ul>
+<li><code>Record ID</code>: An id used to identify the participant of the survey</li>
+<li><code>Reason for ceasing employment</code>: The reason why the person&rsquo;s employment ended</li>
+<li><code>LengthofServiceOverall. Overall Length of Service at Institute (in years)</code>: The length of the person&rsquo;s employment (in years)</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> pandas <span style="color:#f92672">as</span> pd
+
+dete_survey <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;dete_survey.csv&#39;</span>, encoding <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;utf-8&#39;</span>)
+tafe_survey <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;tafe_survey.csv&#39;</span>, encoding <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;utf-8&#39;</span>)
+
+<span style="color:#75715e"># printing info about dete_survey</span>
+dete_survey<span style="color:#f92672">.</span>info()
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74"> </span><span style="color:#ae81ff">\n</span><span style="color:#e6db74"> ***********&#39;</span>)
+<span style="color:#66d9ef">print</span>(dete_survey<span style="color:#f92672">.</span>head())
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74"> </span><span style="color:#ae81ff">\n</span><span style="color:#e6db74"> ***********&#39;</span>)
+
+<span style="color:#75715e"># printing info about tafe_survey</span>
+tafe_survey<span style="color:#f92672">.</span>info()
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74"> </span><span style="color:#ae81ff">\n</span><span style="color:#e6db74"> ***********&#39;</span>)
+tafe_survey<span style="color:#f92672">.</span>head()
+</code></pre></div><pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 822 entries, 0 to 821
+Data columns (total 56 columns):
+ID                                     822 non-null int64
+SeparationType                         822 non-null object
+Cease Date                             822 non-null object
+DETE Start Date                        822 non-null object
+Role Start Date                        822 non-null object
+Position                               817 non-null object
+Classification                         455 non-null object
+Region                                 822 non-null object
+Business Unit                          126 non-null object
+Employment Status                      817 non-null object
+Career move to public sector           822 non-null bool
+Career move to private sector          822 non-null bool
+Interpersonal conflicts                822 non-null bool
+Job dissatisfaction                    822 non-null bool
+Dissatisfaction with the department    822 non-null bool
+Physical work environment              822 non-null bool
+Lack of recognition                    822 non-null bool
+Lack of job security                   822 non-null bool
+Work location                          822 non-null bool
+Employment conditions                  822 non-null bool
+Maternity/family                       822 non-null bool
+Relocation                             822 non-null bool
+Study/Travel                           822 non-null bool
+Ill Health                             822 non-null bool
+Traumatic incident                     822 non-null bool
+Work life balance                      822 non-null bool
+Workload                               822 non-null bool
+None of the above                      822 non-null bool
+Professional Development               808 non-null object
+Opportunities for promotion            735 non-null object
+Staff morale                           816 non-null object
+Workplace issue                        788 non-null object
+Physical environment                   817 non-null object
+Worklife balance                       815 non-null object
+Stress and pressure support            810 non-null object
+Performance of supervisor              813 non-null object
+Peer support                           812 non-null object
+Initiative                             813 non-null object
+Skills                                 811 non-null object
+Coach                                  767 non-null object
+Career Aspirations                     746 non-null object
+Feedback                               792 non-null object
+Further PD                             768 non-null object
+Communication                          814 non-null object
+My say                                 812 non-null object
+Information                            816 non-null object
+Kept informed                          813 non-null object
+Wellness programs                      766 non-null object
+Health &amp; Safety                        793 non-null object
+Gender                                 798 non-null object
+Age                                    811 non-null object
+Aboriginal                             16 non-null object
+Torres Strait                          3 non-null object
+South Sea                              7 non-null object
+Disability                             23 non-null object
+NESB                                   32 non-null object
+dtypes: bool(18), int64(1), object(37)
+memory usage: 258.6+ KB
+
+ 
+ ***********
+   ID                    SeparationType Cease Date DETE Start Date  \
+0   1             Ill Health Retirement    08/2012            1984   
+1   2  Voluntary Early Retirement (VER)    08/2012      Not Stated   
+2   3  Voluntary Early Retirement (VER)    05/2012            2011   
+3   4         Resignation-Other reasons    05/2012            2005   
+4   5                    Age Retirement    05/2012            1970   
+
+  Role Start Date                                      Position  \
+0            2004                                Public Servant   
+1      Not Stated                                Public Servant   
+2            2011                               Schools Officer   
+3            2006                                       Teacher   
+4            1989  Head of Curriculum/Head of Special Education   
+
+  Classification              Region                      Business Unit  \
+0        A01-A04      Central Office  Corporate Strategy and Peformance   
+1        AO5-AO7      Central Office  Corporate Strategy and Peformance   
+2            NaN      Central Office               Education Queensland   
+3        Primary  Central Queensland                                NaN   
+4            NaN          South East                                NaN   
+
+     Employment Status  ...   Kept informed  Wellness programs  \
+0  Permanent Full-time  ...               N                  N   
+1  Permanent Full-time  ...               N                  N   
+2  Permanent Full-time  ...               N                  N   
+3  Permanent Full-time  ...               A                  N   
+4  Permanent Full-time  ...               N                  A   
+
+   Health &amp; Safety  Gender          Age  Aboriginal  Torres Strait  South Sea  \
+0                N    Male        56-60         NaN            NaN        NaN   
+1                N    Male        56-60         NaN            NaN        NaN   
+2                N    Male  61 or older         NaN            NaN        NaN   
+3                A  Female        36-40         NaN            NaN        NaN   
+4                M  Female  61 or older         NaN            NaN        NaN   
+
+   Disability  NESB  
+0         NaN   Yes  
+1         NaN   NaN  
+2         NaN   NaN  
+3         NaN   NaN  
+4         NaN   NaN  
+
+[5 rows x 56 columns]
+
+ 
+ ***********
+&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 702 entries, 0 to 701
+Data columns (total 72 columns):
+Record ID                                                                                                                                                        702 non-null float64
+Institute                                                                                                                                                        702 non-null object
+WorkArea                                                                                                                                                         702 non-null object
+CESSATION YEAR                                                                                                                                                   695 non-null float64
+Reason for ceasing employment                                                                                                                                    701 non-null object
+Contributing Factors. Career Move - Public Sector                                                                                                                437 non-null object
+Contributing Factors. Career Move - Private Sector                                                                                                               437 non-null object
+Contributing Factors. Career Move - Self-employment                                                                                                              437 non-null object
+Contributing Factors. Ill Health                                                                                                                                 437 non-null object
+Contributing Factors. Maternity/Family                                                                                                                           437 non-null object
+Contributing Factors. Dissatisfaction                                                                                                                            437 non-null object
+Contributing Factors. Job Dissatisfaction                                                                                                                        437 non-null object
+Contributing Factors. Interpersonal Conflict                                                                                                                     437 non-null object
+Contributing Factors. Study                                                                                                                                      437 non-null object
+Contributing Factors. Travel                                                                                                                                     437 non-null object
+Contributing Factors. Other                                                                                                                                      437 non-null object
+Contributing Factors. NONE                                                                                                                                       437 non-null object
+Main Factor. Which of these was the main factor for leaving?                                                                                                     113 non-null object
+InstituteViews. Topic:1. I feel the senior leadership had a clear vision and direction                                                                           608 non-null object
+InstituteViews. Topic:2. I was given access to skills training to help me do my job better                                                                       613 non-null object
+InstituteViews. Topic:3. I was given adequate opportunities for personal development                                                                             610 non-null object
+InstituteViews. Topic:4. I was given adequate opportunities for promotion within %Institute]Q25LBL%                                                              608 non-null object
+InstituteViews. Topic:5. I felt the salary for the job was right for the responsibilities I had                                                                  615 non-null object
+InstituteViews. Topic:6. The organisation recognised when staff did good work                                                                                    607 non-null object
+InstituteViews. Topic:7. Management was generally supportive of me                                                                                               614 non-null object
+InstituteViews. Topic:8. Management was generally supportive of my team                                                                                          608 non-null object
+InstituteViews. Topic:9. I was kept informed of the changes in the organisation which would affect me                                                            610 non-null object
+InstituteViews. Topic:10. Staff morale was positive within the Institute                                                                                         602 non-null object
+InstituteViews. Topic:11. If I had a workplace issue it was dealt with quickly                                                                                   601 non-null object
+InstituteViews. Topic:12. If I had a workplace issue it was dealt with efficiently                                                                               597 non-null object
+InstituteViews. Topic:13. If I had a workplace issue it was dealt with discreetly                                                                                601 non-null object
+WorkUnitViews. Topic:14. I was satisfied with the quality of the management and supervision within my work unit                                                  609 non-null object
+WorkUnitViews. Topic:15. I worked well with my colleagues                                                                                                        605 non-null object
+WorkUnitViews. Topic:16. My job was challenging and interesting                                                                                                  607 non-null object
+WorkUnitViews. Topic:17. I was encouraged to use my initiative in the course of my work                                                                          610 non-null object
+WorkUnitViews. Topic:18. I had sufficient contact with other people in my job                                                                                    613 non-null object
+WorkUnitViews. Topic:19. I was given adequate support and co-operation by my peers to enable me to do my job                                                     609 non-null object
+WorkUnitViews. Topic:20. I was able to use the full range of my skills in my job                                                                                 609 non-null object
+WorkUnitViews. Topic:21. I was able to use the full range of my abilities in my job. ; Category:Level of Agreement; Question:YOUR VIEWS ABOUT YOUR WORK UNIT]    608 non-null object
+WorkUnitViews. Topic:22. I was able to use the full range of my knowledge in my job                                                                              608 non-null object
+WorkUnitViews. Topic:23. My job provided sufficient variety                                                                                                      611 non-null object
+WorkUnitViews. Topic:24. I was able to cope with the level of stress and pressure in my job                                                                      610 non-null object
+WorkUnitViews. Topic:25. My job allowed me to balance the demands of work and family to my satisfaction                                                          611 non-null object
+WorkUnitViews. Topic:26. My supervisor gave me adequate personal recognition and feedback on my performance                                                      606 non-null object
+WorkUnitViews. Topic:27. My working environment was satisfactory e.g. sufficient space, good lighting, suitable seating and working area                         610 non-null object
+WorkUnitViews. Topic:28. I was given the opportunity to mentor and coach others in order for me to pass on my skills and knowledge prior to my cessation date    609 non-null object
+WorkUnitViews. Topic:29. There was adequate communication between staff in my unit                                                                               603 non-null object
+WorkUnitViews. Topic:30. Staff morale was positive within my work unit                                                                                           606 non-null object
+Induction. Did you undertake Workplace Induction?                                                                                                                619 non-null object
+InductionInfo. Topic:Did you undertake a Corporate Induction?                                                                                                    432 non-null object
+InductionInfo. Topic:Did you undertake a Institute Induction?                                                                                                    483 non-null object
+InductionInfo. Topic: Did you undertake Team Induction?                                                                                                          440 non-null object
+InductionInfo. Face to Face Topic:Did you undertake a Corporate Induction; Category:How it was conducted?                                                        555 non-null object
+InductionInfo. On-line Topic:Did you undertake a Corporate Induction; Category:How it was conducted?                                                             555 non-null object
+InductionInfo. Induction Manual Topic:Did you undertake a Corporate Induction?                                                                                   555 non-null object
+InductionInfo. Face to Face Topic:Did you undertake a Institute Induction?                                                                                       530 non-null object
+InductionInfo. On-line Topic:Did you undertake a Institute Induction?                                                                                            555 non-null object
+InductionInfo. Induction Manual Topic:Did you undertake a Institute Induction?                                                                                   553 non-null object
+InductionInfo. Face to Face Topic: Did you undertake Team Induction; Category?                                                                                   555 non-null object
+InductionInfo. On-line Topic: Did you undertake Team Induction?process you undertook and how it was conducted.]                                                  555 non-null object
+InductionInfo. Induction Manual Topic: Did you undertake Team Induction?                                                                                         555 non-null object
+Workplace. Topic:Did you and your Manager develop a Performance and Professional Development Plan (PPDP)?                                                        608 non-null object
+Workplace. Topic:Does your workplace promote a work culture free from all forms of unlawful discrimination?                                                      594 non-null object
+Workplace. Topic:Does your workplace promote and practice the principles of employment equity?                                                                   587 non-null object
+Workplace. Topic:Does your workplace value the diversity of its employees?                                                                                       586 non-null object
+Workplace. Topic:Would you recommend the Institute as an employer to others?                                                                                     581 non-null object
+Gender. What is your Gender?                                                                                                                                     596 non-null object
+CurrentAge. Current Age                                                                                                                                          596 non-null object
+Employment Type. Employment Type                                                                                                                                 596 non-null object
+Classification. Classification                                                                                                                                   596 non-null object
+LengthofServiceOverall. Overall Length of Service at Institute (in years)                                                                                        596 non-null object
+LengthofServiceCurrent. Length of Service at current workplace (in years)                                                                                        596 non-null object
+dtypes: float64(2), object(70)
+memory usage: 395.0+ KB
+
+ 
+ ***********
+</code></pre>
+<!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<h3 id="observations">Observations</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span>(dete_survey<span style="color:#f92672">.</span>isnull()<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>sort_values(ascending <span style="color:#f92672">=</span> False))
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74"> ******&#39;</span>)
+<span style="color:#66d9ef">print</span>(tafe_survey<span style="color:#f92672">.</span>isnull()<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>sort_values(ascending <span style="color:#f92672">=</span> False))
+</code></pre></div><pre><code>Torres Strait                          819
+South Sea                              815
+Aboriginal                             806
+Disability                             799
+NESB                                   790
+Business Unit                          696
+Classification                         367
+Opportunities for promotion             87
+Career Aspirations                      76
+Wellness programs                       56
+Coach                                   55
+Further PD                              54
+Workplace issue                         34
+Feedback                                30
+Health &amp; Safety                         29
+Gender                                  24
+Professional Development                14
+Stress and pressure support             12
+Skills                                  11
+Age                                     11
+Peer support                            10
+My say                                  10
+Performance of supervisor                9
+Initiative                               9
+Kept informed                            9
+Communication                            8
+Worklife balance                         7
+Staff morale                             6
+Information                              6
+Physical environment                     5
+Employment Status                        5
+Position                                 5
+Region                                   0
+Career move to private sector            0
+Career move to public sector             0
+Role Start Date                          0
+DETE Start Date                          0
+Cease Date                               0
+SeparationType                           0
+Job dissatisfaction                      0
+Interpersonal conflicts                  0
+None of the above                        0
+Dissatisfaction with the department      0
+Physical work environment                0
+Lack of recognition                      0
+Lack of job security                     0
+Work location                            0
+Employment conditions                    0
+Maternity/family                         0
+Relocation                               0
+Study/Travel                             0
+Ill Health                               0
+Traumatic incident                       0
+Work life balance                        0
+Workload                                 0
+ID                                       0
+dtype: int64
+
+ ******
+Main Factor. Which of these was the main factor for leaving?                                                                                                     589
+InductionInfo. Topic:Did you undertake a Corporate Induction?                                                                                                    270
+Contributing Factors. Ill Health                                                                                                                                 265
+Contributing Factors. Maternity/Family                                                                                                                           265
+Contributing Factors. Career Move - Public Sector                                                                                                                265
+Contributing Factors. NONE                                                                                                                                       265
+Contributing Factors. Other                                                                                                                                      265
+Contributing Factors. Dissatisfaction                                                                                                                            265
+Contributing Factors. Career Move - Self-employment                                                                                                              265
+Contributing Factors. Career Move - Private Sector                                                                                                               265
+Contributing Factors. Travel                                                                                                                                     265
+Contributing Factors. Study                                                                                                                                      265
+Contributing Factors. Interpersonal Conflict                                                                                                                     265
+Contributing Factors. Job Dissatisfaction                                                                                                                        265
+InductionInfo. Topic: Did you undertake Team Induction?                                                                                                          262
+InductionInfo. Topic:Did you undertake a Institute Induction?                                                                                                    219
+InductionInfo. Face to Face Topic:Did you undertake a Institute Induction?                                                                                       172
+InductionInfo. Induction Manual Topic:Did you undertake a Institute Induction?                                                                                   149
+InductionInfo. Face to Face Topic:Did you undertake a Corporate Induction; Category:How it was conducted?                                                        147
+InductionInfo. On-line Topic:Did you undertake a Institute Induction?                                                                                            147
+InductionInfo. On-line Topic:Did you undertake a Corporate Induction; Category:How it was conducted?                                                             147
+InductionInfo. Induction Manual Topic:Did you undertake a Corporate Induction?                                                                                   147
+InductionInfo. Face to Face Topic: Did you undertake Team Induction; Category?                                                                                   147
+InductionInfo. On-line Topic: Did you undertake Team Induction?process you undertook and how it was conducted.]                                                  147
+InductionInfo. Induction Manual Topic: Did you undertake Team Induction?                                                                                         147
+Workplace. Topic:Would you recommend the Institute as an employer to others?                                                                                     121
+Workplace. Topic:Does your workplace value the diversity of its employees?                                                                                       116
+Workplace. Topic:Does your workplace promote and practice the principles of employment equity?                                                                   115
+Workplace. Topic:Does your workplace promote a work culture free from all forms of unlawful discrimination?                                                      108
+LengthofServiceOverall. Overall Length of Service at Institute (in years)                                                                                        106
+                                                                                                                                                                ... 
+WorkUnitViews. Topic:26. My supervisor gave me adequate personal recognition and feedback on my performance                                                       96
+WorkUnitViews. Topic:16. My job was challenging and interesting                                                                                                   95
+InstituteViews. Topic:6. The organisation recognised when staff did good work                                                                                     95
+WorkUnitViews. Topic:22. I was able to use the full range of my knowledge in my job                                                                               94
+WorkUnitViews. Topic:21. I was able to use the full range of my abilities in my job. ; Category:Level of Agreement; Question:YOUR VIEWS ABOUT YOUR WORK UNIT]     94
+InstituteViews. Topic:4. I was given adequate opportunities for promotion within %Institute]Q25LBL%                                                               94
+Workplace. Topic:Did you and your Manager develop a Performance and Professional Development Plan (PPDP)?                                                         94
+InstituteViews. Topic:1. I feel the senior leadership had a clear vision and direction                                                                            94
+InstituteViews. Topic:8. Management was generally supportive of my team                                                                                           94
+WorkUnitViews. Topic:14. I was satisfied with the quality of the management and supervision within my work unit                                                   93
+WorkUnitViews. Topic:19. I was given adequate support and co-operation by my peers to enable me to do my job                                                      93
+WorkUnitViews. Topic:20. I was able to use the full range of my skills in my job                                                                                  93
+WorkUnitViews. Topic:28. I was given the opportunity to mentor and coach others in order for me to pass on my skills and knowledge prior to my cessation date     93
+WorkUnitViews. Topic:24. I was able to cope with the level of stress and pressure in my job                                                                       92
+InstituteViews. Topic:3. I was given adequate opportunities for personal development                                                                              92
+WorkUnitViews. Topic:27. My working environment was satisfactory e.g. sufficient space, good lighting, suitable seating and working area                          92
+InstituteViews. Topic:9. I was kept informed of the changes in the organisation which would affect me                                                             92
+WorkUnitViews. Topic:17. I was encouraged to use my initiative in the course of my work                                                                           92
+WorkUnitViews. Topic:25. My job allowed me to balance the demands of work and family to my satisfaction                                                           91
+WorkUnitViews. Topic:23. My job provided sufficient variety                                                                                                       91
+WorkUnitViews. Topic:18. I had sufficient contact with other people in my job                                                                                     89
+InstituteViews. Topic:2. I was given access to skills training to help me do my job better                                                                        89
+InstituteViews. Topic:7. Management was generally supportive of me                                                                                                88
+InstituteViews. Topic:5. I felt the salary for the job was right for the responsibilities I had                                                                   87
+Induction. Did you undertake Workplace Induction?                                                                                                                 83
+CESSATION YEAR                                                                                                                                                     7
+Reason for ceasing employment                                                                                                                                      1
+WorkArea                                                                                                                                                           0
+Institute                                                                                                                                                          0
+Record ID                                                                                                                                                          0
+Length: 72, dtype: int64
+</code></pre>
+<p>These are the observations</p>
+<table>
+<thead>
+<tr>
+<th>characteristic</th>
+<th><code>dete_survey</code></th>
+<th><code>tafe_survey</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>total number of rows, cols</td>
+<td>(822, 56)</td>
+<td>(702, 72)</td>
+</tr>
+<tr>
+<td>Number of null values in each cols (major)</td>
+<td>[819, 815, 806, 799, 790, 696, 367, &mdash;-]</td>
+<td>[589, 270, 265, 265 * 11, 262, 219, 172, &mdash;- ]</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>dete_survey</code> has less number of columns than <code>tafe_survey</code> where the columns are missing</li>
+<li>Both <code>dete_survey</code> and <code>tafe_survey</code>contains many columns which we won&rsquo;t be needing to carryout our analysis</li>
+<li>In <code>dete_survey</code> there are date columns where a string &lsquo;Not Stated&rsquo; is listed down. This should be converted as Nan</li>
+<li>Many of the columns have duplicated columns with a different column name</li>
+</ul>
+<h2 id="2-identify-missing-values-and-drop-unnecessary-columns">2. Identify Missing Values and Drop Unnecessary Columns</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">dete_survey <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;dete_survey.csv&#39;</span>, na_values <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Not Stated&#39;</span>)
+dete_survey<span style="color:#f92672">.</span>iloc[<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">28</span>:<span style="color:#ae81ff">49</span>]
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<p>Since the columns from <code>[28:49]</code> and <code>[17:66]</code> in the dataframes, <code>dete_survey</code> and <code>tafe_survey</code> respectively are not useful for our analysis, they can be dropped</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span>(dete_survey<span style="color:#f92672">.</span>shape, tafe_survey<span style="color:#f92672">.</span>shape)
+dete_survey<span style="color:#f92672">.</span>drop(dete_survey<span style="color:#f92672">.</span>columns[<span style="color:#ae81ff">28</span>:<span style="color:#ae81ff">49</span>], axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, inplace <span style="color:#f92672">=</span> True)
+tafe_survey<span style="color:#f92672">.</span>drop(tafe_survey<span style="color:#f92672">.</span>columns[<span style="color:#ae81ff">17</span>:<span style="color:#ae81ff">66</span>], axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, inplace <span style="color:#f92672">=</span> True)
+<span style="color:#66d9ef">print</span>(dete_survey<span style="color:#f92672">.</span>shape, tafe_survey<span style="color:#f92672">.</span>shape)
+</code></pre></div><pre><code>(822, 56) (702, 72)
+(822, 35) (702, 23)
+</code></pre>
+<h2 id="3-clean-column-names">3. Clean column names</h2>
+<p>There are many duplicate columns with a different column names in the both the datasets. If one looks at the analysis which we are interested in, below are some of the columns which we would like to use for our analysis.</p>
+<table>
+<thead>
+<tr>
+<th>dete_survey</th>
+<th>tafe_survey</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID</td>
+<td>Record ID</td>
+<td>An id used to identify the participant of the survey</td>
+</tr>
+<tr>
+<td>SeparationType</td>
+<td>Reason for ceasing employment</td>
+<td>The reason why the participant&rsquo;s employment ended</td>
+</tr>
+<tr>
+<td>Cease Date</td>
+<td>CESSATION YEAR</td>
+<td>The year or month the participant&rsquo;s employment ended</td>
+</tr>
+<tr>
+<td>DETE Start Date</td>
+<td></td>
+<td>The year the participant began employment with the DETE</td>
+</tr>
+<tr>
+<td></td>
+<td>LengthofServiceOverall. Overall Length of Service at Institute (in years)</td>
+<td>The length of the person&rsquo;s employment (in years)</td>
+</tr>
+<tr>
+<td>Age</td>
+<td>CurrentAge.Current Age</td>
+<td>The age of the participant</td>
+</tr>
+<tr>
+<td>Gender</td>
+<td>Gender.What is your Gender?</td>
+<td>The gender of the participant</td>
+</tr>
+</tbody>
+</table>
+<p>Eventually, for our analysis we have to combine both the data sets to gain more insights and answer the two questions which were listed down earlier. Hence, it is of utmost importance to keep the column names same for same cateogories in both the surveys.
+Also, it would be better if we follow the following so that the column names would be consistent</p>
+<ul>
+<li>Make all the capitalization lowercase.</li>
+<li>Remove any trailing whitespace from the end of the strings.</li>
+<li>Replace spaces with underscores ('_').</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">dete_survey<span style="color:#f92672">.</span>head()
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span>(dete_survey<span style="color:#f92672">.</span>columns)
+<span style="color:#75715e">#dete_survey_updated = dete_survey.iloc[:,[0, 1, 2, 3, 5,  -6, -7]]</span>
+dete_survey_updated <span style="color:#f92672">=</span> dete_survey<span style="color:#f92672">.</span>copy(deep <span style="color:#f92672">=</span> True)
+dete_survey_updated<span style="color:#f92672">.</span>columns <span style="color:#f92672">=</span> dete_survey_updated<span style="color:#f92672">.</span>columns<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>lower()<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>strip()<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;\s+&#39;</span>, <span style="color:#e6db74">&#39; &#39;</span>)<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39; &#39;</span>,<span style="color:#e6db74">&#39;_&#39;</span>)
+dete_survey_updated<span style="color:#f92672">.</span>head()
+</code></pre></div><pre><code>Index(['ID', 'SeparationType', 'Cease Date', 'DETE Start Date',
+       'Role Start Date', 'Position', 'Classification', 'Region',
+       'Business Unit', 'Employment Status', 'Career move to public sector',
+       'Career move to private sector', 'Interpersonal conflicts',
+       'Job dissatisfaction', 'Dissatisfaction with the department',
+       'Physical work environment', 'Lack of recognition',
+       'Lack of job security', 'Work location', 'Employment conditions',
+       'Maternity/family', 'Relocation', 'Study/Travel', 'Ill Health',
+       'Traumatic incident', 'Work life balance', 'Workload',
+       'None of the above', 'Gender', 'Age', 'Aboriginal', 'Torres Strait',
+       'South Sea', 'Disability', 'NESB'],
+      dtype='object')
+</code></pre>
+<!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tafe_survey_updated <span style="color:#f92672">=</span> tafe_survey<span style="color:#f92672">.</span>copy(deep <span style="color:#f92672">=</span> True)
+map_dict <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;Record ID&#39;</span>: <span style="color:#e6db74">&#39;id&#39;</span>,
+<span style="color:#e6db74">&#39;CESSATION YEAR&#39;</span>: <span style="color:#e6db74">&#39;cease_date&#39;</span>,
+<span style="color:#e6db74">&#39;Reason for ceasing employment&#39;</span>: <span style="color:#e6db74">&#39;separationtype&#39;</span>,
+<span style="color:#e6db74">&#39;Gender. What is your Gender?&#39;</span>: <span style="color:#e6db74">&#39;gender&#39;</span>,
+<span style="color:#e6db74">&#39;CurrentAge. Current Age&#39;</span>: <span style="color:#e6db74">&#39;age&#39;</span>,
+<span style="color:#e6db74">&#39;Employment Type. Employment Type&#39;</span>: <span style="color:#e6db74">&#39;employment_status&#39;</span>,
+<span style="color:#e6db74">&#39;Classification. Classification&#39;</span>: <span style="color:#e6db74">&#39;position&#39;</span>,
+<span style="color:#e6db74">&#39;LengthofServiceOverall. Overall Length of Service at Institute (in years)&#39;</span>: <span style="color:#e6db74">&#39;institute_service&#39;</span>,
+<span style="color:#e6db74">&#39;LengthofServiceCurrent. Length of Service at current workplace (in years)&#39;</span>: <span style="color:#e6db74">&#39;role_service&#39;</span>}
+tafe_survey_updated<span style="color:#f92672">.</span>rename(map_dict, axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, inplace <span style="color:#f92672">=</span> True)
+tafe_survey_updated<span style="color:#f92672">.</span>head()
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<h2 id="4-filtering-the-data">4. Filtering the Data</h2>
+<p>Recall that our end goal is to answer the following question:
+Are employees who have only worked for the institutes for a short period of time resigning due to some kind of dissatisfaction? What about employees who have been at the job longer?</p>
+<p>If one sees the datasets, they would notice that the <code>separationtype</code> contains different separation types of the employees.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Unique values in dete </span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>,dete_survey_updated[<span style="color:#e6db74">&#39;separationtype&#39;</span>]<span style="color:#f92672">.</span>value_counts())
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74"> </span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Unique values in tafe </span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>,tafe_survey_updated[<span style="color:#e6db74">&#39;separationtype&#39;</span>]<span style="color:#f92672">.</span>value_counts())
+</code></pre></div><pre><code>Unique values in dete 
+ Age Retirement                          285
+Resignation-Other reasons               150
+Resignation-Other employer               91
+Resignation-Move overseas/interstate     70
+Voluntary Early Retirement (VER)         67
+Ill Health Retirement                    61
+Other                                    49
+Contract Expired                         34
+Termination                              15
+Name: separationtype, dtype: int64
+
+ 
+Unique values in tafe 
+ Resignation                 340
+Contract Expired            127
+Retrenchment/ Redundancy    104
+Retirement                   82
+Transfer                     25
+Termination                  23
+Name: separationtype, dtype: int64
+</code></pre>
+<p>We are interested in &lsquo;Resignation&rsquo; because our objective is that. In tafe, <code>Resignation</code> column is obvious, but in dete the following three columns have to be looked at</p>
+<ul>
+<li>Resignation-Other reasons</li>
+<li>Resignation-Other employer</li>
+<li>Resignation-Move overseas/interstate</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Using df.copy to not set SettingWithCopy Warning </span>
+pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^Resignation.*&#39;</span>
+interested_df <span style="color:#f92672">=</span> dete_survey_updated[dete_survey_updated[<span style="color:#e6db74">&#39;separationtype&#39;</span>]<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>contains(pattern)]
+dete_resignations <span style="color:#f92672">=</span> interested_df<span style="color:#f92672">.</span>copy(deep <span style="color:#f92672">=</span> True)
+<span style="color:#66d9ef">print</span>(dete_resignations<span style="color:#f92672">.</span>head())
+tafe_resignations <span style="color:#f92672">=</span> tafe_survey_updated[tafe_survey_updated[<span style="color:#e6db74">&#39;separationtype&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;Resignation&#39;</span>]<span style="color:#f92672">.</span>copy(deep <span style="color:#f92672">=</span> True)
+tafe_resignations<span style="color:#f92672">.</span>head()
+</code></pre></div><pre><code>    id                        separationtype cease_date  dete_start_date  \
+3    4             Resignation-Other reasons    05/2012           2005.0   
+5    6             Resignation-Other reasons    05/2012           1994.0   
+8    9             Resignation-Other reasons    07/2012           2009.0   
+9   10            Resignation-Other employer       2012           1997.0   
+11  12  Resignation-Move overseas/interstate       2012           2009.0   
+
+    role_start_date          position classification                region  \
+3            2006.0           Teacher        Primary    Central Queensland   
+5            1997.0  Guidance Officer            NaN        Central Office   
+8            2009.0           Teacher      Secondary      North Queensland   
+9            2008.0      Teacher Aide            NaN                   NaN   
+11           2009.0           Teacher      Secondary  Far North Queensland   
+
+           business_unit    employment_status  ...   work_life_balance  \
+3                    NaN  Permanent Full-time  ...               False   
+5   Education Queensland  Permanent Full-time  ...               False   
+8                    NaN  Permanent Full-time  ...               False   
+9                    NaN  Permanent Part-time  ...               False   
+11                   NaN  Permanent Full-time  ...               False   
+
+    workload  none_of_the_above  gender    age  aboriginal  torres_strait  \
+3      False              False  Female  36-40         NaN            NaN   
+5      False              False  Female  41-45         NaN            NaN   
+8      False              False  Female  31-35         NaN            NaN   
+9      False              False  Female  46-50         NaN            NaN   
+11     False              False    Male  31-35         NaN            NaN   
+
+    south_sea  disability  nesb  
+3         NaN         NaN   NaN  
+5         NaN         NaN   NaN  
+8         NaN         NaN   NaN  
+9         NaN         NaN   NaN  
+11        NaN         NaN   NaN  
+
+[5 rows x 35 columns]
+</code></pre>
+<!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<h2 id="5-verify-the-data">5. Verify the Data</h2>
+<p>We will look at the datasets for any logical inconsistencies in any of the columns which we are interested in. As stated in the section 3, the columns which we are interested in <code>dete_survey_updated</code> are:</p>
+<ul>
+<li><code>cease_date</code></li>
+<li><code>dete_start_date</code></li>
+<li><code>age</code></li>
+<li><code>gender</code></li>
+</ul>
+<p>Let us plot and visualize each of those columns.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">unique_values_dete <span style="color:#f92672">=</span> {}
+unique_values_dete[<span style="color:#e6db74">&#39;cease_date&#39;</span>] <span style="color:#f92672">=</span> dete_resignations[<span style="color:#e6db74">&#39;cease_date&#39;</span>]<span style="color:#f92672">.</span>value_counts()
+unique_values_dete[<span style="color:#e6db74">&#39;dete_start_date&#39;</span>] <span style="color:#f92672">=</span> dete_resignations[<span style="color:#e6db74">&#39;dete_start_date&#39;</span>]<span style="color:#f92672">.</span>value_counts()
+<span style="color:#66d9ef">print</span>(unique_values_dete[<span style="color:#e6db74">&#39;cease_date&#39;</span>])
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">****</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>, unique_values_dete[<span style="color:#e6db74">&#39;dete_start_date&#39;</span>],<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#66d9ef">print</span>(dete_resignations[<span style="color:#e6db74">&#39;cease_date&#39;</span>]<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">.</span>sum(), dete_resignations[<span style="color:#e6db74">&#39;dete_start_date&#39;</span>]<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">.</span>sum())
+</code></pre></div><pre><code>2012       126
+2013        74
+01/2014     22
+12/2013     17
+06/2013     14
+09/2013     11
+07/2013      9
+11/2013      9
+10/2013      6
+08/2013      4
+05/2012      2
+05/2013      2
+07/2012      1
+07/2006      1
+2010         1
+09/2010      1
+Name: cease_date, dtype: int64
+
+
+****
+ 2011.0    24
+2008.0    22
+2007.0    21
+2012.0    21
+2010.0    17
+2005.0    15
+2004.0    14
+2009.0    13
+2006.0    13
+2013.0    10
+2000.0     9
+1999.0     8
+1996.0     6
+2002.0     6
+1992.0     6
+1998.0     6
+2003.0     6
+1994.0     6
+1993.0     5
+1990.0     5
+1980.0     5
+1997.0     5
+1991.0     4
+1989.0     4
+1988.0     4
+1995.0     4
+2001.0     3
+1985.0     3
+1986.0     3
+1983.0     2
+1976.0     2
+1974.0     2
+1971.0     1
+1972.0     1
+1984.0     1
+1982.0     1
+1987.0     1
+1975.0     1
+1973.0     1
+1977.0     1
+1963.0     1
+Name: dete_start_date, dtype: int64 
+
+
+300 283
+</code></pre>
+<p>Looking at the unique values, one thing is obvious, if we want to compare the columns <code>cease_date</code> and <code>dete_start_date</code> both should be in the same format. Right now, some rows in <code>cease_date</code> are in MM/YYYY format, if they are made to be in YYYY format, there will be consistemcy and it will be easy to compare.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># CAREFUL ::: This line should be executed only once</span>
+dete_resignations[<span style="color:#e6db74">&#39;cease_date&#39;</span>] <span style="color:#f92672">=</span> dete_resignations[<span style="color:#e6db74">&#39;cease_date&#39;</span>]<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>split(pat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/&#39;</span>)<span style="color:#f92672">.</span>str[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>float64)
+dete_resignations[<span style="color:#e6db74">&#39;cease_date&#39;</span>]<span style="color:#f92672">.</span>value_counts()
+dete_resignations[<span style="color:#e6db74">&#39;dete_start_date&#39;</span>]<span style="color:#f92672">.</span>value_counts()
+<span style="color:#75715e"># Now the format is same for cease_date and dete_start_date</span>
+</code></pre></div><pre><code>2011.0    24
+2008.0    22
+2007.0    21
+2012.0    21
+2010.0    17
+2005.0    15
+2004.0    14
+2009.0    13
+2006.0    13
+2013.0    10
+2000.0     9
+1999.0     8
+1996.0     6
+2002.0     6
+1992.0     6
+1998.0     6
+2003.0     6
+1994.0     6
+1993.0     5
+1990.0     5
+1980.0     5
+1997.0     5
+1991.0     4
+1989.0     4
+1988.0     4
+1995.0     4
+2001.0     3
+1985.0     3
+1986.0     3
+1983.0     2
+1976.0     2
+1974.0     2
+1971.0     1
+1972.0     1
+1984.0     1
+1982.0     1
+1987.0     1
+1975.0     1
+1973.0     1
+1977.0     1
+1963.0     1
+Name: dete_start_date, dtype: int64
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+<span style="color:#f92672">%</span>matplotlib inline
+fig <span style="color:#f92672">=</span> dete_resignations<span style="color:#f92672">.</span>boxplot(column <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;cease_date&#39;</span>, <span style="color:#e6db74">&#39;dete_start_date&#39;</span>])
+plt<span style="color:#f92672">.</span>title( <span style="color:#e6db74">&#39;Box plot comparison&#39;</span> )
+<span style="color:#75715e">#plt.suptitle(&#39;&#39;) # that&#39;s what you&#39;re after</span>
+plt<span style="color:#f92672">.</span>show()
+</code></pre></div><p><img src="https://res.cloudinary.com/pavan8k/image/upload/v1605461984/site_assets/posts/exit_survey/6_Clean_And_Analyze_Employee_Exit_Surveys_25_0_z540re.png" alt="png"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#e6db74">&#39;&#39;&#39;fig, (ax1, ax2) = plt.subplots(1, 2)
+</span><span style="color:#e6db74">ax1 = dete_survey_updated[&#39;cease_date&#39;].plot(kind=&#39;hist&#39;)
+</span><span style="color:#e6db74">ax2 = dete_survey_updated[&#39;dete_start_date&#39;].plot(kind=&#39;hist&#39;)
+</span><span style="color:#e6db74">plt.show()&#39;&#39;&#39;</span>
+
+fig, (ax1, ax2) <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, figsize <span style="color:#f92672">=</span> (<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">5</span>))
+ax1<span style="color:#f92672">.</span>hist(dete_resignations[<span style="color:#e6db74">&#39;cease_date&#39;</span>]<span style="color:#f92672">.</span>dropna(), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>) <span style="color:#75715e">#Histogram cannot deal with Nan values</span>
+ax1<span style="color:#f92672">.</span>axis(xmin<span style="color:#f92672">=</span><span style="color:#ae81ff">2004</span>,xmax<span style="color:#f92672">=</span><span style="color:#ae81ff">2016</span>)
+ax1<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;cease_date histogram&#39;</span>)
+ax2<span style="color:#f92672">.</span>hist(dete_resignations[<span style="color:#e6db74">&#39;dete_start_date&#39;</span>]<span style="color:#f92672">.</span>dropna(), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>)
+ax2<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;dete_start_date histogram&#39;</span>)
+plt<span style="color:#f92672">.</span>show()
+</code></pre></div><p><img src="https://res.cloudinary.com/pavan8k/image/upload/v1605461985/site_assets/posts/exit_survey/6_Clean_And_Analyze_Employee_Exit_Surveys_26_0_pn9s9d.png" alt="png"></p>
+<h3 id="observations-1">Observations</h3>
+<ul>
+<li><code>cease_date</code> is a more narrow distribution than <code>dete_start_date</code></li>
+<li>Suddenly many people left at 2012 and 2013 (Any peculiar reason ?)</li>
+<li>In <code>dete_start_date</code> it can be seen that many people started working from 1965, 1970s onwards.</li>
+</ul>
+<p><strong>Overall the data looks Ok and there are no logical inconsistencies</strong></p>
+<h2 id="6-creating-a-new-column--length-of-service">6. Creating a new column : Length of service</h2>
+<p><code>tafe_resignations</code> dataframe already contains a &ldquo;service&rdquo; column, which we renamed to <code>institute_service</code>. In order to analyze both surveys together, we&rsquo;ll have to create a corresponding <code>institute_service</code> column in <code>dete_resignations</code>.
+Since we know the starting date of the service (<code>dete_start_date</code>) and resignation date (<code>cease_date</code>), we can calculating the <code>institute_service</code> column by subtracting the both</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">dete_resignations[<span style="color:#e6db74">&#39;institute_service&#39;</span>] <span style="color:#f92672">=</span> dete_resignations[<span style="color:#e6db74">&#39;cease_date&#39;</span>] <span style="color:#f92672">-</span> dete_resignations[<span style="color:#e6db74">&#39;dete_start_date&#39;</span>]
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># value counts in percentages</span>
+dete_resignations[<span style="color:#e6db74">&#39;institute_service&#39;</span>]<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span><span style="color:#f92672">/</span>dete_resignations[<span style="color:#e6db74">&#39;institute_service&#39;</span>]<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">.</span>sum()
+</code></pre></div><pre><code>5.0     8.424908
+1.0     8.058608
+3.0     7.326007
+0.0     7.326007
+6.0     6.227106
+4.0     5.860806
+9.0     5.128205
+2.0     5.128205
+7.0     4.761905
+13.0    2.930403
+8.0     2.930403
+20.0    2.564103
+15.0    2.564103
+10.0    2.197802
+22.0    2.197802
+14.0    2.197802
+17.0    2.197802
+12.0    2.197802
+16.0    1.831502
+18.0    1.831502
+23.0    1.465201
+11.0    1.465201
+24.0    1.465201
+39.0    1.098901
+19.0    1.098901
+21.0    1.098901
+32.0    1.098901
+28.0    0.732601
+26.0    0.732601
+25.0    0.732601
+30.0    0.732601
+36.0    0.732601
+29.0    0.366300
+33.0    0.366300
+42.0    0.366300
+27.0    0.366300
+41.0    0.366300
+35.0    0.366300
+38.0    0.366300
+34.0    0.366300
+49.0    0.366300
+31.0    0.366300
+Name: institute_service, dtype: float64
+</code></pre>
+<p><strong>It should be noted that, more than 35% of the people resigned within the first 5 years of the service with the institute.</strong> Hence it should be analysed why people resigned, Are they dissatisfied or is there any other reason.</p>
+<h2 id="7-identifying-dissatisfied-employees">7. Identifying Dissatisfied Employees</h2>
+<p>Below are the columns we&rsquo;ll use to categorize employees as &ldquo;dissatisfied&rdquo; from each dataframe. If you disagree, feel free to modify them! Just make sure you explain why you made that decision.</p>
+<p>tafe_survey_updated:</p>
+<ul>
+<li>Contributing Factors. Dissatisfaction</li>
+<li>Contributing Factors. Job Dissatisfaction</li>
+</ul>
+<p>dete_survey_updated:</p>
+<ul>
+<li>job_dissatisfaction</li>
+<li>dissatisfaction_with_the_department</li>
+<li>physical_work_environment</li>
+<li>lack_of_recognition</li>
+<li>lack_of_job_security</li>
+<li>work_location</li>
+<li>employment_conditions</li>
+<li>work_life_balance</li>
+<li>workload</li>
+</ul>
+<p>If the employee indicated any of the factors above caused them to resign, we&rsquo;ll mark them as dissatisfied in a new column.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span>(tafe_resignations[<span style="color:#e6db74">&#39;Contributing Factors. Dissatisfaction&#39;</span>]<span style="color:#f92672">.</span>value_counts())
+<span style="color:#75715e">#print(tafe_resignations[tafe_resignations[&#39;Contributing Factors. Dissatisfaction&#39;] == &#39;Contributing Factors. Dissatisfaction &#39;])</span>
+
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">***** Job Dissatisfacion ****** </span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)
+<span style="color:#66d9ef">print</span>(tafe_resignations[<span style="color:#e6db74">&#39;Contributing Factors. Job Dissatisfaction&#39;</span>]<span style="color:#f92672">.</span>value_counts())
+<span style="color:#75715e">#print(tafe_resignations[tafe_resignations[&#39;Contributing Factors. Job Dissatisfaction&#39;] == &#39;Job Dissatisfaction&#39;])</span>
+
+</code></pre></div><pre><code>-                                         277
+Contributing Factors. Dissatisfaction      55
+Name: Contributing Factors. Dissatisfaction, dtype: int64
+
+
+***** Job Dissatisfacion ****** 
+
+-                      270
+Job Dissatisfaction     62
+Name: Contributing Factors. Job Dissatisfaction, dtype: int64
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">update_vals</span>(element):
+    <span style="color:#66d9ef">if</span> pd<span style="color:#f92672">.</span>isnull(element):
+        <span style="color:#66d9ef">return</span> np<span style="color:#f92672">.</span>nan
+    <span style="color:#66d9ef">elif</span> element <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;-&#39;</span>:
+        <span style="color:#66d9ef">return</span> False
+    <span style="color:#66d9ef">else</span>:
+        <span style="color:#66d9ef">return</span> True
+    
+
+tafe_resignations[[<span style="color:#e6db74">&#39;Contributing Factors. Dissatisfaction&#39;</span>, <span style="color:#e6db74">&#39;Contributing Factors. Job Dissatisfaction&#39;</span>]] <span style="color:#f92672">=</span> tafe_resignations[[<span style="color:#e6db74">&#39;Contributing Factors. Dissatisfaction&#39;</span>, <span style="color:#e6db74">&#39;Contributing Factors. Job Dissatisfaction&#39;</span>]]<span style="color:#f92672">.</span>applymap(update_vals)
+
+</code></pre></div><p>Here, we updated the values in the <code>Contributing Factors. Dissatisfaction</code> and <code>Contributing Factors. Job Dissatisfaction</code> in the <code>tafe_resignations</code> dataframe so that each contains only <code>True</code>, <code>False</code>, or <code>NaN</code> values. To achieve that, we wrote a function named <code>update_vals</code> that makes the following changes:</p>
+<ul>
+<li>If the value is NaN, return np.nan. We used the following criteria to check that a value is NaN: pd.isnull(val).</li>
+<li>If the value is &lsquo;-&rsquo;, return False.</li>
+<li>For any other value, return True.</li>
+</ul>
+<p>We also used the <code>DataFrame.applymap()</code> method to apply the function above to the <code>Contributing Factors. Dissatisfaction</code> and <code>Contributing Factors. Job Dissatisfaction</code> in the tafe_resignations dataframe.
+Remember that we need to pass the update_vals function into the df.applymap() method without parentheses.</p>
+<p>Next,</p>
+<ul>
+<li>We will use the <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.any.html"><code>df.any() method</code></a> to create a dissatisfied column in BOTH the <code>tafe_resignations</code> and <code>dete_resignations</code> dataframes.</li>
+<li>We will use the <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.copy.html"><code>df.copy() method</code></a> to create a copy of the results and avoid the SettingWithCopy Warning assigning the results to <code>dete_resignations_up</code> and <code>tafe_resignations_up</code>.</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tafe_resignations[<span style="color:#e6db74">&#39;dissatisfied&#39;</span>] <span style="color:#f92672">=</span> tafe_resignations[[<span style="color:#e6db74">&#39;Contributing Factors. Dissatisfaction&#39;</span>,<span style="color:#e6db74">&#39;Contributing Factors. Job Dissatisfaction&#39;</span>]]<span style="color:#f92672">.</span>any(axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, skipna <span style="color:#f92672">=</span> False)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tafe_resignations[<span style="color:#e6db74">&#39;dissatisfied&#39;</span>]
+</code></pre></div><pre><code>3      False
+4      False
+5      False
+6      False
+7      False
+8      False
+9      False
+10     False
+13     False
+14      True
+15     False
+16       NaN
+17      True
+18       NaN
+19     False
+20      True
+21     False
+22     False
+23     False
+24     False
+26      True
+27     False
+29     False
+32     False
+36     False
+37     False
+39     False
+40      True
+41     False
+42     False
+       ...  
+659    False
+660    False
+661     True
+665    False
+666    False
+669    False
+670      NaN
+671     True
+675     True
+676    False
+677    False
+678    False
+679    False
+681    False
+682    False
+683    False
+684    False
+685     True
+686    False
+688    False
+689     True
+690    False
+691    False
+693    False
+694    False
+696    False
+697    False
+698    False
+699    False
+701    False
+Name: dissatisfied, Length: 340, dtype: object
+</code></pre>
+<p><strong><code>tafe_resignations['dissatisfied']</code> columns looks ok and thus we can apply this method to <code>dete_resignations</code> too.</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">list_dete <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;job_dissatisfaction&#39;</span>, <span style="color:#e6db74">&#39;dissatisfaction_with_the_department&#39;</span>, <span style="color:#e6db74">&#39;physical_work_environment&#39;</span>,
+             <span style="color:#e6db74">&#39;lack_of_recognition&#39;</span>, <span style="color:#e6db74">&#39;lack_of_job_security&#39;</span>,<span style="color:#e6db74">&#39;work_location&#39;</span>, <span style="color:#e6db74">&#39;employment_conditions&#39;</span>, 
+             <span style="color:#e6db74">&#39;work_life_balance&#39;</span>, <span style="color:#e6db74">&#39;workload&#39;</span>]
+
+dete_resignations[<span style="color:#e6db74">&#39;dissatisfied&#39;</span>] <span style="color:#f92672">=</span> dete_resignations[list_dete]<span style="color:#f92672">.</span>any(axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, skipna <span style="color:#f92672">=</span> False)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#dete_resignations[&#39;dissatisfied&#39;]</span>
+<span style="color:#66d9ef">print</span>(dete_resignations<span style="color:#f92672">.</span>shape)
+dete_resignations[<span style="color:#e6db74">&#39;dissatisfied&#39;</span>]<span style="color:#f92672">.</span>value_counts()
+</code></pre></div><pre><code>(311, 37)
+
+
+
+
+
+False    162
+True     149
+Name: dissatisfied, dtype: int64
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">dete_resignations_up <span style="color:#f92672">=</span> dete_resignations<span style="color:#f92672">.</span>copy()
+tafe_resignations_up <span style="color:#f92672">=</span> tafe_resignations<span style="color:#f92672">.</span>copy()
+</code></pre></div><p>We are using the <code>df.copy()</code> method to create a copy of the results and avoid the SettingWithCopy Warning</p>
+<h2 id="8-combining-the-data">8. Combining the Data</h2>
+<p>We have two datasets right now, <code>dete_resignations_up</code> and <code>tafe_resignations_up</code>. We have to combine our datasets! Our end goal is to aggregate the data according to the institute_service column, so when you combine the data, think about how to get the data into a form that&rsquo;s easy to aggregate.</p>
+<p>First, let&rsquo;s add a column to each dataframe that will allow us to easily distinguish between the two.</p>
+<ul>
+<li>Let&rsquo;s add a column named <code>institute</code> to <code>dete_resignations_up</code>. Each row should contain the value <code>DETE</code>.</li>
+<li>Let&rsquo;s add a column named <code>institute</code> to <code>tafe_resignations_up</code>. Each row should contain the value <code>TAFE</code>.</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">dete_resignations_up[<span style="color:#e6db74">&#39;institute&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;DETE&#39;</span>
+tafe_resignations_up[<span style="color:#e6db74">&#39;institute&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;TAFE&#39;</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span>(dete_resignations_up<span style="color:#f92672">.</span>shape, tafe_resignations_up<span style="color:#f92672">.</span>shape)
+</code></pre></div><pre><code>(311, 38) (340, 25)
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">combined <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([dete_resignations_up, tafe_resignations_up], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+<span style="color:#66d9ef">print</span>(combined<span style="color:#f92672">.</span>shape)
+combined
+</code></pre></div><pre><code>(651, 53)
+</code></pre>
+<!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<p>It could be seen that there are many columns which have <code>NaN</code> values. It could be argued that, if a column has too many <code>NaN</code> values, since <code>NaN</code> values will be discarded for the data analysis, that data representation is not correct across all the samples and such columns should be discarded from the data analysis. There are a total of 651 rows, hence arbitrarily, we can choose that if a column has less than 500 non null values, we can drop that column.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span>(combined<span style="color:#f92672">.</span>shape)
+combined_updated <span style="color:#f92672">=</span> combined<span style="color:#f92672">.</span>dropna(axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, thresh <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>)
+<span style="color:#66d9ef">print</span>(combined_updated<span style="color:#f92672">.</span>shape)
+</code></pre></div><pre><code>(651, 53)
+(651, 10)
+</code></pre>
+<p><strong>Wow, we can see that 53 columns are reduced to 10.</strong></p>
+<h2 id="9-cleaning-the-service-column">9. Cleaning the Service Column</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">combined_updated[<span style="color:#e6db74">&#39;institute_service&#39;</span>]<span style="color:#f92672">.</span>value_counts(dropna <span style="color:#f92672">=</span> False)
+</code></pre></div><pre><code>NaN                   88
+Less than 1 year      73
+1-2                   64
+3-4                   63
+5-6                   33
+11-20                 26
+5.0                   23
+1.0                   22
+7-10                  21
+0.0                   20
+3.0                   20
+6.0                   17
+4.0                   16
+9.0                   14
+2.0                   14
+7.0                   13
+More than 20 years    10
+8.0                    8
+13.0                   8
+15.0                   7
+20.0                   7
+10.0                   6
+12.0                   6
+14.0                   6
+22.0                   6
+17.0                   6
+18.0                   5
+16.0                   5
+11.0                   4
+23.0                   4
+24.0                   4
+19.0                   3
+39.0                   3
+32.0                   3
+21.0                   3
+26.0                   2
+28.0                   2
+30.0                   2
+36.0                   2
+25.0                   2
+27.0                   1
+29.0                   1
+31.0                   1
+49.0                   1
+33.0                   1
+34.0                   1
+35.0                   1
+38.0                   1
+41.0                   1
+42.0                   1
+Name: institute_service, dtype: int64
+</code></pre>
+<p>These are too many values and for our analysis to be effective, we will segragate all into a group of 4 according to <a href="https://www.businesswire.com/news/home/20171108006002/en/Age-Number-Engage-Employees-Career-Stage">this article</a>. These are</p>
+<ul>
+<li><strong>New</strong>: Less than 3 years at a company</li>
+<li><strong>Experienced</strong>: 3-6 years at a company</li>
+<li><strong>Established</strong>: 7-10 years at a company</li>
+<li><strong>Veteran</strong>: 11 or more years at a company</li>
+</ul>
+<p>Let us categororise <code>institute_service</code> into the above</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">institute_processed_series <span style="color:#f92672">=</span> combined_updated[<span style="color:#e6db74">&#39;institute_service&#39;</span>]<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;str&#39;</span>)<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;\.0$&#39;</span>,<span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;str&#39;</span>)<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>findall(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;[0-9]+&#39;</span>)
+
+
+<span style="color:#75715e"># s = pd.Series([&#39;NaN&#39;,&#39;7&#39;,&#39;3&#39;,&#39;11&#39;, &#39;Less than 1 year&#39;, &#39;1-2&#39;, &#39;11-20&#39;, &#39;30&#39;,&#39;10.0&#39;,&#39;7-10&#39;,&#39;5-6&#39;, &#39;More than 15.0 years&#39;, &#39;5.0&#39;])</span>
+<span style="color:#75715e"># s2 = s.str.replace(r&#39;\.0&#39;,&#39;&#39;).astype(&#39;str&#39;).str.findall(r&#39;[0-9]+&#39;)</span>
+<span style="color:#75715e"># print(s2)</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">service_cat_func</span>(list_elements):
+    <span style="color:#75715e">#print(list_elements, type(list(list_elements)))</span>
+    list_elements <span style="color:#f92672">=</span> list(list_elements)
+    list_elements <span style="color:#f92672">=</span> [float(item) <span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> list_elements]
+    val1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span> <span style="color:#75715e"># Criteria for dividing service into 4 groups</span>
+    val2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>
+    val3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>
+    
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> list_elements:
+        <span style="color:#75715e"># List is empty</span>
+        <span style="color:#66d9ef">return</span> np<span style="color:#f92672">.</span>nan
+    <span style="color:#66d9ef">else</span>:
+        <span style="color:#75715e">#print(ele for ele in list_elements)</span>
+        condn_group1 <span style="color:#f92672">=</span> all(ele<span style="color:#f92672">&lt;</span> val1 <span style="color:#66d9ef">for</span> ele <span style="color:#f92672">in</span> list_elements)
+        condn_group2 <span style="color:#f92672">=</span> all((ele<span style="color:#f92672">&gt;=</span> val1 <span style="color:#f92672">and</span> ele<span style="color:#f92672">&lt;=</span> val2 <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">for</span> ele <span style="color:#f92672">in</span> list_elements)
+        condn_group3 <span style="color:#f92672">=</span> all((ele<span style="color:#f92672">&gt;=</span> val2 <span style="color:#f92672">and</span> ele<span style="color:#f92672">&lt;=</span> val3 <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> ) <span style="color:#66d9ef">for</span> ele <span style="color:#f92672">in</span> list_elements)
+        condn_group4 <span style="color:#f92672">=</span> all(ele<span style="color:#f92672">&gt;=</span> val3 <span style="color:#66d9ef">for</span> ele <span style="color:#f92672">in</span> list_elements)
+        
+        <span style="color:#66d9ef">if</span> condn_group1 <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> (condn_group2 <span style="color:#f92672">or</span> condn_group3 <span style="color:#f92672">or</span> condn_group4):
+            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;New&#39;</span>
+        <span style="color:#66d9ef">elif</span> condn_group2 <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> (condn_group1 <span style="color:#f92672">or</span> condn_group3 <span style="color:#f92672">or</span> condn_group4):
+            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Experienced&#39;</span>
+        <span style="color:#66d9ef">elif</span> condn_group3 <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> (condn_group2 <span style="color:#f92672">or</span> condn_group1 <span style="color:#f92672">or</span> condn_group4):
+            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Established&#39;</span>
+        <span style="color:#66d9ef">elif</span> condn_group4 <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> (condn_group2 <span style="color:#f92672">or</span> condn_group3 <span style="color:#f92672">or</span> condn_group1):
+            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Veteran&#39;</span>
+        <span style="color:#66d9ef">else</span>:
+            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Logical Error!!!&#39;</span>
+     
+
+
+combined_updated[<span style="color:#e6db74">&#39;service_cat&#39;</span>] <span style="color:#f92672">=</span> institute_processed_series<span style="color:#f92672">.</span>apply(service_cat_func)
+<span style="color:#75715e">#combined_updated[combined_updated[&#39;service_cat&#39;] == &#39;Logical Error!!!&#39;]</span>
+combined_updated[<span style="color:#e6db74">&#39;service_cat&#39;</span>]<span style="color:#f92672">.</span>value_counts(dropna <span style="color:#f92672">=</span> False)
+
+<span style="color:#75715e"># s2.apply(service_cat_func)</span>
+</code></pre></div><pre><code>/dataquest/system/env/python3/lib/python3.4/site-packages/ipykernel/__main__.py:39: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+
+
+
+
+
+
+New            193
+Experienced    172
+Veteran        136
+NaN             88
+Established     62
+Name: service_cat, dtype: int64
+</code></pre>
+<p><strong>Note: The warning of <code>SettingWithCopyWarning</code> is present because of the way the new column of <code>service_cat</code> is added on to the dataframe of <code>combined_updated</code>. However, it can be ignored because always the value of <code>service_cat</code> will be dependent on the <code>institute_service</code> column.</strong></p>
+<h2 id="10-performing-intial-analysis">10. Performing Intial Analysis</h2>
+<p>The <code>dissatisfied</code> column consists of Boolean values, meaning they&rsquo;re either <code>True</code> or <code>False</code>. Methods such as the <code>df.pivot_table()</code> method actually treat Boolean values as integers, so a <code>True</code> value is considered to be <code>1</code> and a <code>False</code> value is considered to be <code>0</code>. That means that we can aggregate the dissatisfied column and calculate the number of people in each group, the percentage of people in each group, etc.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">combined_updated[<span style="color:#e6db74">&#39;dissatisfied&#39;</span>]<span style="color:#f92672">.</span>value_counts(dropna <span style="color:#f92672">=</span> False)
+</code></pre></div><pre><code>False    403
+True     240
+NaN        8
+Name: dissatisfied, dtype: int64
+</code></pre>
+<p>We will fill the missing values in the column <code>dissatisfied</code> with the most frequently occuring value, i.e <code>False</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">combined_updated[<span style="color:#e6db74">&#39;dissatisfied&#39;</span>]<span style="color:#f92672">.</span>fillna(False, inplace <span style="color:#f92672">=</span> True)
+combined_updated[<span style="color:#e6db74">&#39;dissatisfied&#39;</span>]<span style="color:#f92672">.</span>value_counts(dropna <span style="color:#f92672">=</span> False) <span style="color:#75715e"># expected no of False = 411, True = 240</span>
+</code></pre></div><pre><code>/dataquest/system/env/python3/lib/python3.4/site-packages/pandas/core/generic.py:4355: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+
+
+
+
+
+
+False    411
+True     240
+Name: dissatisfied, dtype: int64
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">pd<span style="color:#f92672">.</span>pivot_table(combined_updated, index <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;service_cat&#39;</span>,values <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;dissatisfied&#39;</span>, aggfunc <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean)
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<ul>
+<li>This implies that more than 50% of the <code>Established</code> persons are dissatisfied.</li>
+<li>It also shows that the <code>New</code> or slightlty <code>Experienced</code> category people are not that dissatisfied.</li>
+<li>Dissatisfaction increases as the employee&rsquo;s time within the institute increases, and peaks around 7-10 years time, before decreasing slightly later</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span>(combined_updated[<span style="color:#e6db74">&#39;institute&#39;</span>]<span style="color:#f92672">.</span>value_counts())
+table1 <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>pivot_table(combined_updated, index <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;service_cat&#39;</span>, columns <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;institute&#39;</span>, values <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;dissatisfied&#39;</span>, aggfunc <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean)
+desired_index <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;New&#39;</span>, <span style="color:#e6db74">&#39;Experienced&#39;</span>, <span style="color:#e6db74">&#39;Established&#39;</span>, <span style="color:#e6db74">&#39;Veteran&#39;</span>]
+table1 <span style="color:#f92672">=</span> table1<span style="color:#f92672">.</span>reindex(desired_index)
+ax <span style="color:#f92672">=</span> table1<span style="color:#f92672">.</span>plot<span style="color:#f92672">.</span>bar(rot<span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>, ylim<span style="color:#f92672">=</span>[<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>])
+ax<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;Fig-1 : Fraction of people dissatisfied who Resigned&#39;</span>)
+</code></pre></div><pre><code>TAFE    340
+DETE    311
+Name: institute, dtype: int64
+
+
+
+
+
+&lt;matplotlib.text.Text at 0x7f2072600668&gt;
+</code></pre>
+<p><img src="https://res.cloudinary.com/pavan8k/image/upload/v1605461985/site_assets/posts/exit_survey/6_Clean_And_Analyze_Employee_Exit_Surveys_62_2_nhoc5d.png" alt="png"></p>
+<p>According to these two survethere are roughly same number of employees among <code>DETE</code> and <code>TAFE</code>, 311 and 340 respectively. Among the employees who resigned, we can observe the following.</p>
+<ul>
+<li><code>DETE</code> has more dissatisfaction than <code>TAFE</code>, in some categories upto 60%</li>
+<li>In the case of <code>DETE</code>, dissatisfaction among the employees increased as they spent more time with the institute, peaking at 7-11 years, and slightly decreased among the employees who spent more than 11 years; whereas for the <code>TAFE</code> institute, the situtation is more or less the same irrespective of the time spent with the institute.</li>
+</ul>
+<p><strong>These suggest that something is probably wrong with <code>DETE</code> than <code>TAFE</code></strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">combined_updated[<span style="color:#e6db74">&#39;age&#39;</span>]<span style="color:#f92672">.</span>value_counts(dropna <span style="color:#f92672">=</span> False)
+</code></pre></div><pre><code>41-45                  93
+46-50                  81
+36-40                  73
+51-55                  71
+26-30                  67
+21-25                  62
+31-35                  61
+56-60                  55
+NaN                    55
+61 years or older      23
+20 years or younger    10
+Name: age, dtype: int64
+</code></pre>
+<p>This suggests we have to clean the age column in the dataframe</p>
+<h2 id="11-cleaning-the-age-column">11. Cleaning the <code>age</code> column</h2>
+<p>The <code>age</code> column can be categorized as follows:</p>
+<ul>
+<li>
+<p>20 years or younger</p>
+</li>
+<li>
+<p>21 - 25</p>
+</li>
+<li>
+<p>26 - 30</p>
+<p>&quot;&quot;&quot;&quot;&quot;&quot;</p>
+</li>
+<li>
+<p>51 - 55</p>
+</li>
+<li>
+<p>56 - 60</p>
+</li>
+<li>
+<p>60 years or older</p>
+</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#age_processed_series = combined_updated[&#39;age&#39;].astype(&#39;str&#39;).str.replace(r&#39;\.0$&#39;,&#39;&#39;).astype(&#39;str&#39;).str.findall(r&#39;[0-9]+&#39;)</span>
+processed_age_series <span style="color:#f92672">=</span> combined_updated[<span style="color:#e6db74">&#39;age&#39;</span>]<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;\.0&#39;</span>,<span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;str&#39;</span>)<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>findall(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;[0-9]+&#39;</span>)
+
+<span style="color:#75715e"># test_series = pd.Series([&#39;NaN&#39;,&#39;51-55&#39;,&#39;41  45&#39;,&#39;56 or older&#39;, &#39;20 or younger&#39;, &#39;61 or older&#39;,&#39;31  35&#39;])</span>
+<span style="color:#75715e"># processed_test_series = test_series.str.replace(r&#39;\.0&#39;,&#39;&#39;).astype(&#39;str&#39;).str.findall(r&#39;[0-9]+&#39;)</span>
+<span style="color:#75715e"># print(processed_test_series)</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">clean_age</span>(age_bracket):
+    <span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">    Function to clean the age column from the dataset. I/p: list of age, o/p: returns which category in string
+</span><span style="color:#e6db74">    &#39;&#39;&#39;</span>
+    age_bracket <span style="color:#f92672">=</span> [int(element) <span style="color:#66d9ef">for</span> element <span style="color:#f92672">in</span> age_bracket]
+    age_category <span style="color:#f92672">=</span> [[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">20</span>]] <span style="color:#75715e"># 20 years or younger</span>
+    <span style="color:#66d9ef">for</span> num <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">60</span>, <span style="color:#ae81ff">5</span>):
+        age_category<span style="color:#f92672">.</span>append([num<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, num<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>])
+    age_category<span style="color:#f92672">.</span>append([<span style="color:#ae81ff">61</span>, <span style="color:#ae81ff">100</span>])  <span style="color:#75715e"># 61 years or older</span>
+    <span style="color:#75715e">#print(age_category)</span>
+    
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> age_bracket:
+        <span style="color:#75715e"># Requested age bracket is empty</span>
+        <span style="color:#66d9ef">return</span> np<span style="color:#f92672">.</span>nan
+    <span style="color:#66d9ef">else</span>:
+        <span style="color:#66d9ef">for</span> sub_cat <span style="color:#f92672">in</span> age_category:
+            <span style="color:#66d9ef">if</span> all(element <span style="color:#f92672">&gt;=</span> sub_cat[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">and</span> element <span style="color:#f92672">&lt;=</span> sub_cat[<span style="color:#ae81ff">1</span>] <span style="color:#66d9ef">for</span> element <span style="color:#f92672">in</span> age_bracket):
+                <span style="color:#66d9ef">if</span> sub_cat[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+                    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;20 years or younger&#39;</span>
+                <span style="color:#66d9ef">elif</span> sub_cat[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">61</span>:
+                    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;61 years or older&#39;</span>
+                <span style="color:#66d9ef">else</span>:
+                    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;{}-{}&#39;</span><span style="color:#f92672">.</span>format(sub_cat[<span style="color:#ae81ff">0</span>], sub_cat[<span style="color:#ae81ff">1</span>])
+                
+            <span style="color:#66d9ef">else</span>:
+                <span style="color:#66d9ef">pass</span>
+    
+combined_updated[<span style="color:#e6db74">&#39;age&#39;</span>] <span style="color:#f92672">=</span> processed_age_series<span style="color:#f92672">.</span>apply(clean_age)      
+combined_updated[<span style="color:#e6db74">&#39;age&#39;</span>]<span style="color:#f92672">.</span>value_counts(dropna <span style="color:#f92672">=</span> False)
+</code></pre></div><pre><code>/dataquest/system/env/python3/lib/python3.4/site-packages/ipykernel/__main__.py:35: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+
+
+
+
+
+
+41-45                  93
+46-50                  81
+36-40                  73
+51-55                  71
+26-30                  67
+21-25                  62
+31-35                  61
+56-60                  55
+NaN                    55
+61 years or older      23
+20 years or younger    10
+Name: age, dtype: int64
+</code></pre>
+<p><code>age</code> column is cleaned from the dataset and we can proceed with the analysis corresponding to the relation between the various age bracket of the resigned employees and how many of them are dissatisfied</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">table2 <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>pivot_table(combined_updated, index <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;age&#39;</span>, columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;institute&#39;</span>], values <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;dissatisfied&#39;</span>, aggfunc <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean)
+desired_index <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;20 years or younger&#39;</span>,<span style="color:#e6db74">&#39;21-25&#39;</span>,<span style="color:#e6db74">&#39;26-30&#39;</span>,<span style="color:#e6db74">&#39;31-35&#39;</span>,<span style="color:#e6db74">&#39;36-40&#39;</span>,<span style="color:#e6db74">&#39;41-45&#39;</span>,<span style="color:#e6db74">&#39;46-50&#39;</span>,<span style="color:#e6db74">&#39;51-55&#39;</span>,<span style="color:#e6db74">&#39;56-60&#39;</span>, <span style="color:#e6db74">&#39;61 years or older&#39;</span>]
+table2 <span style="color:#f92672">=</span> table2<span style="color:#f92672">.</span>reindex(desired_index)
+ax <span style="color:#f92672">=</span> table2<span style="color:#f92672">.</span>plot<span style="color:#f92672">.</span>bar(rot<span style="color:#f92672">=</span> <span style="color:#ae81ff">90</span>, ylim<span style="color:#f92672">=</span>[<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>])
+ax<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;Fig-2 : Fraction of people dissatisfied who Resigned&#39;</span>)
+plt<span style="color:#f92672">.</span>show()
+</code></pre></div><p><img src="https://res.cloudinary.com/pavan8k/image/upload/v1605461985/site_assets/posts/exit_survey/6_Clean_And_Analyze_Employee_Exit_Surveys_69_0_syzalg.png" alt="png"></p>
+<p>These results are also indicate that out of the employees who resigned,</p>
+<ul>
+<li>Employees from <code>DETE</code> are dissatisfied than from <code>TAFE</code></li>
+<li>Interestingly, in <code>Fig-1</code>, the highest percentage of dissatisfied resigned employees were from the <code>Established</code> category, i.e, their service tenure is around <code>7-10</code> years. If we assume that most of the persons started their career at the <code>DETE</code> around an age of <code>26-30</code>, their age at the time of resignation should have been at <code>36-40</code>. But we are actually seeing a dip in the % of dissatisfied employees in the <code>Fig-2</code></li>
+</ul>
+<p>We will carryout additional analysis regarding that. But before, we will take a look at the table currently, and we will decide which columns give us more insight to carryout additional analysis of the dissatisfied employees</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">combined_updated<span style="color:#f92672">.</span>head()
+combined_updated[<span style="color:#e6db74">&#39;gender&#39;</span>]<span style="color:#f92672">.</span>value_counts()
+</code></pre></div><pre><code>Female    424
+Male      168
+Name: gender, dtype: int64
+</code></pre>
+<p><strong>Resigned employees are predominantly <code>Female</code>, almost 3.5x than <code>Male</code>. Is the intake of the employees in this proportion or does the <code>Female</code> employees are resigning in this proportion???</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">table3 <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>pivot_table(combined_updated, index <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;age&#39;</span>, columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;institute&#39;</span>,<span style="color:#e6db74">&#39;gender&#39;</span>,<span style="color:#e6db74">&#39;service_cat&#39;</span>], values <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;dissatisfied&#39;</span>, aggfunc <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean)
+table3
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead tr th {
+    text-align: left;
+}
+
+.dataframe thead tr:last-of-type th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<h2 id="12-analysis-by-gender">12. Analysis by <code>Gender</code></h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">table4 <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>pivot_table(combined_updated[combined_updated[<span style="color:#e6db74">&#39;institute&#39;</span>]<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;DETE&#39;</span>], index <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;age&#39;</span>, columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;gender&#39;</span>], values <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;dissatisfied&#39;</span>, aggfunc <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean)
+table5 <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>pivot_table(combined_updated[combined_updated[<span style="color:#e6db74">&#39;institute&#39;</span>]<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;TAFE&#39;</span>], index <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;age&#39;</span>, columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;gender&#39;</span>], values <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;dissatisfied&#39;</span>, aggfunc <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean)
+
+ax1 <span style="color:#f92672">=</span> table4<span style="color:#f92672">.</span>plot<span style="color:#f92672">.</span>bar(rot<span style="color:#f92672">=</span> <span style="color:#ae81ff">90</span>, ylim<span style="color:#f92672">=</span>[<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>])
+ax1<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;DETE: Fraction of people dissatisfied who Resigned&#39;</span>)
+ax2 <span style="color:#f92672">=</span> table5<span style="color:#f92672">.</span>plot<span style="color:#f92672">.</span>bar(rot<span style="color:#f92672">=</span> <span style="color:#ae81ff">90</span>, ylim<span style="color:#f92672">=</span>[<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>])
+ax2<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;TAFE: Fraction of people dissatisfied who Resigned&#39;</span>)
+plt<span style="color:#f92672">.</span>show()
+
+</code></pre></div><p><img src="https://res.cloudinary.com/pavan8k/image/upload/v1605461985/site_assets/posts/exit_survey/6_Clean_And_Analyze_Employee_Exit_Surveys_75_0_dqucww.png" alt="png"></p>
+<p><img src="https://res.cloudinary.com/pavan8k/image/upload/v1605461985/site_assets/posts/exit_survey/6_Clean_And_Analyze_Employee_Exit_Surveys_75_1_mgebj1.png" alt="png"></p>
+<h2 id="13-summary-and-conclusion">13. Summary and conclusion</h2>
+<p>Summary of the analysis is that</p>
+<ul>
+<li>Suddenly, many people resigned in 2012 and 2013 (Any peculiar reason ?)</li>
+<li>For DETE, more than 35% of the people resigned within the first 5 years of the service with the institute.</li>
+<li>When we cateogorize employees into their tenure of service,it is observed that the <code>New</code> or slightlty <code>Experienced</code> category people are not that dissatisfied.</li>
+<li>DETE has more dissatisfaction than TAFE, in some categories upto 60%</li>
+<li>In the case of DETE, dissatisfaction among the employees increased as they spent more time with the institute, peaking at 7-11 years, and slightly decreased among the employees who spent more than 11 years; whereas for the TAFE institute, the situtation is more or less the same irrespective of the time spent with the institute. <strong>These suggest that something is probably wrong with <code>DETE</code> than <code>TAFE</code>.</strong></li>
+<li>Resigned employees are predominantly Female, almost 3.5x than Male. However, analysis by the gender suggested that in <code>DETE</code> in terms of percentages wise, <code>Female</code> employeess didn&rsquo;t resign more than <code>Male</code> employees because of dissatisfaction <strong>suggesting the reason for dissatisfaction is not gender bias in the institute.</strong></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
+</code></pre></div>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pavankumar.in/2020/10/analysis-profitable-apps-on-appstore-and-playstore/" data-tooltip="Analysis: Profitable apps on AppStore and PlayStore">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pavankumar.in/2020/07/analysing-newyork-city-high-school-sat-scores/" data-tooltip="Analysing NewYork city high school SAT scores">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pavankumar.in/2020/09/datascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pavankumar.in/2020/09/datascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pavankumar.in/2020/09/datascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2020 Pavan Kumar. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pavankumar.in/2020/10/analysis-profitable-apps-on-appstore-and-playstore/" data-tooltip="Analysis: Profitable apps on AppStore and PlayStore">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pavankumar.in/2020/07/analysing-newyork-city-high-school-sat-scores/" data-tooltip="Analysing NewYork city high school SAT scores">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pavankumar.in/2020/09/datascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pavankumar.in/2020/09/datascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pavankumar.in/2020/09/datascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpavankumar.in%2F2020%2F09%2Fdatascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpavankumar.in%2F2020%2F09%2Fdatascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpavankumar.in%2F2020%2F09%2Fdatascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://pavankumar.in/images/dp2.jpg" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Pavan Kumar</h4>
+    
+      <div id="about-card-bio">I am Data Science and Software enthusiast. I am specialized in C++ and Python. For a detailed CV, click <a href = "\cv">here.</a></div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Software Engineer
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        India
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    <div id="cover" style="background-image:url('https://res.cloudinary.com/pavan8k/image/upload/v1605034816/site_assets/bg1_skjhyf.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://pavankumar.in/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/pavankumar.in\/2020\/09\/datascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization\/';
+          
+            this.page.identifier = '\/2020\/09\/datascience-from-exit-surveys-understanding-why-employees-are-really-leaving-an-organization\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'https-pavankumar-in';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
